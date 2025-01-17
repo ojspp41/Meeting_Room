@@ -19,8 +19,8 @@ function Unlogin() {
 
       {/* 회원가입, 비밀번호 찾기 링크 */}
       <div className="auth-links">
-        <a href="/signup" className="auth-link">회원가입</a> | 
-        <a href="/find-password" className="auth-link">비밀번호 찾기</a>
+        <a href="/fee" className="auth-link">회원가입</a> | 
+        <a href="/find" className="auth-link">비밀번호 찾기</a>
       </div>
        {/* 문의하기 아이콘 및 말풍선 */}
        <div className="inquiry-icon-container" onClick={toggleTooltip}>

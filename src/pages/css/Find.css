@@ -48,7 +48,7 @@
     color: #666;
     margin-top: 5px;
 }
-.button-container {
+.find-button-container {
     display: flex;
     justify-content: center;
     gap: 20px;

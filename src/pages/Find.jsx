@@ -1,7 +1,13 @@
-import React from 'react';
-import './css/Find.css';
+import React, { useState } from 'react';
 
+import './css/Find.css';
+import ErrorModal from '../components/ErrorModal';
 function Find() {
+const [error, setError] = useState('');
+
+  const handleError = (message) => {
+    setError(message);
+  };
   return (
     <div className="fee-certification-container">
       <img src="/assets/logo.svg" alt="학생회비 로고" className="fee-logo" />
@@ -31,10 +37,11 @@ function Find() {
         
 
       </div>
-      <div className="button-container">
+      <div className="find-button-container">
             <button className="find-button">문의하기</button>
             <button className="find-button confirm">확인</button>
         </div>
+        {/* <ErrorModal message="'로그인 에러가 발생했습니다.'" onClose={() => setError('')} /> */}
     </div>
   );
 }
