@@ -8,6 +8,7 @@
 
 .fee-logo { /* 로고 크기 조정 */
     height: 62px;
+    margin-bottom: 10px;
 }
 
 .fee-text h2 {
@@ -64,4 +65,30 @@
     font-size: 12px;
     color: #666;
     margin-top: 5px;
+}
+.next-button-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-top: 50px;
+}
+.next-button {
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+    background-color: #444;
 }
