@@ -6,18 +6,22 @@ import Unlogin from './pages/Unlogin';
 import FeeCertification from './pages/FeeCertification';
 import Password from './pages/Password';
 import Find from './pages/Find';
+import { Faq } from './pages/Faq';
+import MapView from './pages/Map';
+
 function App() {
   return (
     <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Unlogin  />} />
-            <Route path="/fee" element={<FeeCertification  />} />
-            <Route path="/password" element={<Password  />} />
-            <Route path="/find" element={<Find  />} />
-            
-          </Routes>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Unlogin />} />
+          <Route path="/fee" element={<FeeCertification />} />
+          <Route path="/password" element={<Password />} />
+          <Route path="/find" element={<Find />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/map" element={<MapView />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

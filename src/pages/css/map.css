@@ -1,0 +1,45 @@
+/* css/map.css */
+.map-container {
+    position: relative;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .map-buttons {
+    position: absolute;
+    top: -27px;
+    left: 10px;
+    display: flex;
+    gap: 5px;
+    background :#F5F5F5;
+  }
+  
+  .map-buttons button {
+    padding: 8px 16px;
+    border: none;
+    background: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .map-buttons button.active {
+    background: #000000;
+    color: #ffffff;
+  }
+  
+  .map-image {
+    width: 100%;
+    height: 586px;
+    margin-top: 100px;
+    display: block;
+    border-radius: 10px;
+  }
+  
+  .map-description {
+    margin-top: 10px;
+    font-size: 14px;
+    margin-right: 100px;
+  }
+  
