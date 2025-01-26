@@ -8,8 +8,8 @@
   
   .map-buttons {
     position: absolute;
-    top: -27px;
-    left: 10px;
+    top: -36px;
+    left: 3px;
     display: flex;
     gap: 5px;
     background :#F5F5F5;
@@ -40,6 +40,6 @@
   .map-description {
     margin-top: 10px;
     font-size: 14px;
-    margin-right: 100px;
+    margin-right: 120px;
   }
   
