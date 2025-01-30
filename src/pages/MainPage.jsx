@@ -77,7 +77,7 @@ function MainPage() {
   };
 
   return (
-    <div>
+    <div className='mainpage-container'>
       <NavigationBar />
       <Calendar
         onChange={handleDateChange}
