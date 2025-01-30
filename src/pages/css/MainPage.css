@@ -1,0 +1,49 @@
+body, html {
+    margin: 0;
+    display: flex;
+    justify-content: center;  
+    align-items: center;  
+  }
+
+.react-calendar {
+    width: 100%;  
+
+  }
+.selected {
+    background-color: #0C2E86 !important;
+    color: white;
+  }
+  
+  .weekend {
+    background-color: #f0f0f0;
+  }
+  
+  .holiday {
+    background-color: #e0e0e0;
+  }
+  
+  .time-slots {
+    color: #646870;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 3%;  
+  }
+  
+  .time-slot {
+    width: 130px;
+    height: 25px;
+    padding: 3%;
+    margin: 3%; 
+    text-align: center; 
+    border-radius: 5px;
+    background: var(--white, #FFF);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  .next-step-button{
+    color: #646870;
+    display: flex;
+    border-radius: 5px;
+    background: var(--white, #FFF);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  }
