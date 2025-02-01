@@ -8,6 +8,8 @@ import Password from './pages/Password';
 import Find from './pages/Find';
 import { Faq } from './pages/Faq';
 import MapView from './pages/Map';
+import MainPage from './pages/MainPage';
+import ReservationDetails from './pages/ReservationDetails';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/find" element={<Find />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/map" element={<MapView />} />
+          <Route path="/mainpage" element={<MainPage />} />
+          <Route path="/reservation-details" element={<ReservationDetails />} />
         </Routes>
       </BrowserRouter>
     </div>

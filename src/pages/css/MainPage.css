@@ -1,0 +1,72 @@
+body, html {
+    margin: 0;
+    display: flex;
+    justify-content: center;  
+    align-items: center;  
+  }
+
+.mainpage-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  align-items: center; 
+}
+.react-calendar {
+    width: 100%;    
+
+  }
+.selected {
+    background-color: #0C2E86 !important;
+    color: white;
+  }
+  
+  .weekend {
+    background-color: #f0f0f0;
+  }
+  
+  .holiday {
+    background-color: #e0e0e0;
+  }
+  
+  .time-slots {
+    color: #646870;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 3%;  
+  }
+  
+  .time-slot {
+    width: 130px;
+    height: 25px;
+    padding: 3%;
+    margin: 3%; 
+    text-align: center; 
+    border-radius: 5px;
+    background: var(--white, #FFF);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+.next-step-button{
+  color: #646870;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: var(--white, #FFF);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  border: none;
+  width: 175px;
+  height: 50px;
+  padding: 5%;
+  color: var(--black2, #121212);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 100%;
+&:hover {
+    background: rgba(12, 46, 134, 0.10);
+    box-shadow: 0px 0px 1px 0px #0C2E86;
+    color: var(--catholic-color, #0C2E86);
+  }
+}
