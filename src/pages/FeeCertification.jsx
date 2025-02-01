@@ -1,7 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './css/FeeCertification.css';
-
+import { useNavigate } from 'react-router-dom';
+import { useFeeStore } from '../../store';
 function FeeCertification() {
+  const { name, setName, studentId, setStudentId } = useFeeStore();
+  const navigate = useNavigate();
+  
+  const handleSubmit = async () => {
+    if (!name || !studentId) {
+      alert('이름과 학번을 입력해주세요.');
+      return;
+    }
+    
+    const payload = {
+      name,
+      studentId,
+    };
+    console.log(name,studentId);
+    try {
+      const response = await fetch('/api/signup/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      
+      if (!response.ok) {
+        throw new Error('서버 오류 발생');
+      }
+
+      const result = await response.json();
+      alert(`인증 완료: ${result.message}`);
+      navigate('/password');
+    } catch (error) {
+      alert(`인증 실패: ${error.message}`);
+    }
+  };
   return (
     <div className="fee-certification-container">
       <img src="/assets/logo.svg" alt="학생회비 로고" className="fee-logo" />
@@ -13,17 +48,17 @@ function FeeCertification() {
        <div className="fee-form">
         <div className="input-group">
           <label htmlFor="name">이름</label>
-          <input type="text" id="name" />
+          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="input-group">
           <label htmlFor="studentId">학번</label>
-          <input type="text" id="studentId" />
+          <input type="text" id="studentId" value={studentId} onChange={(e) => setStudentId(e.target.value)} />
         </div>
         <p className="form-info">* 학번은 아이디로 쓰일 예정입니다.</p>
       </div>
 
       <div className="button-container">
-        <button className="next-button">다음</button>
+        <button className="next-button" onClick={handleSubmit}>다음</button>
       </div>
     </div>
   );
