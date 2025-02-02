@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './css/faq.css';
-
+import NavigationBar from '../components/NavigationBar/NavigationBar';
 export const Faq = () => {
   const [faqs, setFaqs] = useState([
     {
@@ -35,7 +35,7 @@ export const Faq = () => {
 
   return (
     <div className="faq-container">
-      <h2 className="faq-title">자주 묻는 질문</h2>
+      <NavigationBar title="FAQ"/>
       <div className="faq-list">
         {faqs.map((faq, index) => (
           <div key={faq.id} className="faq-item">

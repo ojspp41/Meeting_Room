@@ -3,16 +3,18 @@ import styled from 'styled-components';
 
 export const NavBarContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  width: 390px;
+  width: 100%;
   height: 76px;
   color: var(--black2, #121212);
   text-align: center;
   font-family: Pretendard;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 25px;
+  font-weight: bold;
   line-height: 150%;
+  border-bottom: 1px solid #B4B4B4; /* 하단 보더 추가 */
+  
 `;
 
 export const LogoImage = styled.img`

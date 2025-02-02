@@ -1,12 +1,11 @@
 import React from 'react';
 import { NavBarContainer, LogoImage, VectorImage } from '../NavigationBar/Styles'; 
 
-
-function NavigationBar() {
+function NavigationBar({ title }) {
   return (
     <NavBarContainer>
       <LogoImage src="/assets/logo.svg" alt='로고'/>
-      <span>컴퓨터정보공학부</span>
+      <span>{title}</span>
       <VectorImage src="/assets/vector.svg" alt='로고'/>
     </NavBarContainer>
   );
