@@ -1,0 +1,46 @@
+/* css/answer.css */
+.answer-container {
+    padding: 0px 20px;
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.answer-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.answer-item {
+    padding: 15px 10px;
+    border-bottom: 1px solid #B4B4B4;
+    cursor: pointer;
+}
+
+.answer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 요소 높이를 동일하게 정렬 */
+}
+
+.answer-titles {
+    font-size: 16px;
+    font-weight: bold;
+    color: #121212;
+    flex: 1; /* 제목이 남은 공간을 차지하도록 설정 */
+    line-height: 1.5; /* 줄 높이 조정 */
+}
+
+.answer-arrow {
+    font-size: 25px; /* 화살표 크기를 줄여서 균형 맞춤 */
+    color: #121212;
+    flex-shrink: 0; /* 화살표 크기 고정 */
+    font-weight: bold;
+}
+
+.answer-date {
+    font-size: 16px;
+    color: #767676;
+    font-weight: 600;
+    margin-top: 15px;
+}

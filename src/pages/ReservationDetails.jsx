@@ -43,7 +43,7 @@ function ReservationDetails() {
 
   return (
     <div className="container">
-      <NavigationBar />
+      <NavigationBar title="컴퓨터정보공학부" />
       <div className="reservation-details">
         {reservationDetails &&
           Object.entries(reservationDetails).map(([key, value]) => (

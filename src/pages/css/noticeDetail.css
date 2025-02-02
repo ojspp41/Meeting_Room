@@ -1,0 +1,48 @@
+.notice-detail-container {
+    padding: 0px 20px;
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.notice-content {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notice-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #121212;
+}
+
+.notice-date {
+    font-size: 14px;
+    color: #767676;
+    margin-top: 5px;
+}
+
+.notice-text {
+    font-size: 16px;
+    color: #333;
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.back-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #121212;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background: #333;
+}

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import './css/map.css';
 import image2D from '../../public/assets/image2D.png'; // 2D 지도 이미지
 import image3D from '../../public/assets/image3D.png'; // 3D 지도 이미지
-
+import NavigationBar from '../components/NavigationBar/NavigationBar';
 const MapView = () => {
   const [is3D, setIs3D] = useState(false);
 
   return (
+    
     <div className="map-container">
+      <NavigationBar title="회의실/과방 위치" />
       <div className="map-buttons">
         <button className={!is3D ? "active" : ""} onClick={() => setIs3D(false)}>평면</button>
         <button className={is3D ? "active" : ""} onClick={() => setIs3D(true)}>3D</button>

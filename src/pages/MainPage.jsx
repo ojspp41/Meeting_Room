@@ -78,7 +78,7 @@ function MainPage() {
 
   return (
     <div className='mainpage-container'>
-      <NavigationBar />
+      <NavigationBar title="컴퓨터정보공학부" />
       <Calendar
         onChange={handleDateChange}
         value={date}
