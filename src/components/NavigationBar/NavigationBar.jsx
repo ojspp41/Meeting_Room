@@ -1,12 +1,46 @@
-import React from 'react';
-import { NavBarContainer, LogoImage, VectorImage } from '../NavigationBar/Styles'; 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem } from '../NavigationBar/Styles'; 
 
 function NavigationBar({ title }) {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsOpen(false);
+  };
+
+
+
+  const menuItems = [
+    { label: "예약 일정 확인/취소", path: "/reservation-details" },
+    { label: "교내 타회의실 예약", path: "/" },
+    { label: "자주 묻는 질문", path: "/faq" },
+    { label: "공지사항", path: "/notice" },
+    { label: "회의실/과방 위치", path: "/map" }
+  ];
+
   return (
     <NavBarContainer>
       <LogoImage src="/assets/logo.svg" alt='로고'/>
       <span>{title}</span>
-      <VectorImage src="/assets/vector.svg" alt='로고'/>
+      <VectorImage src="/assets/vector.svg" alt='로고' onClick={toggleDropdown} />
+      {isOpen && (
+        
+        <DropdownMenu>
+          
+          {menuItems.map((item, index) => (
+            <DropdownItem key={index} onClick={() => { navigate(item.path); closeDropdown(); }}>
+              {item.label}
+            </DropdownItem>
+          ))}
+        </DropdownMenu>
+     
+      )}
     </NavBarContainer>
   );
 }

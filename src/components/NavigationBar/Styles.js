@@ -27,3 +27,26 @@ export const VectorImage = styled.img`
   height: 18px;
   padding: 2%;  
 `;
+export const DropdownMenu = styled.div`
+  position: absolute;
+  top: 120px;
+  
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+`;
+
+export const DropdownItem = styled.div`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #121212;
+  padding: 12px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+`;
