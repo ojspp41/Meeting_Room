@@ -9,11 +9,11 @@ export const AdminFaq = () => {
     <div className="admin-container">
       <AdminNav title="관리자 FAQ" />
       <div className="admin-button-container">
-        <button className="admin-button" onClick={() => navigate('/admin/notice')}>
-          공지사항 작성
+        <button className="admin-button" onClick={() => navigate('/admin/faq/write')}>
+          FAQ 작성
         </button>
-        <button className="admin-button" onClick={() => navigate('/admin/faq')}>
-          공지사항 목록 조회
+        <button className="admin-button" onClick={() => navigate('/admin/faq/edit')}>
+          FAQ 목록 조회
         </button>
         
       </div>

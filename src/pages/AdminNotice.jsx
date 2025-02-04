@@ -13,7 +13,7 @@ export const AdminNotice = () => {
         <button className="admin-button" onClick={() => navigate('/admin/notice/write')}>
           공지사항 작성
         </button>
-        <button className="admin-button" onClick={() => navigate('/admin/faq')}>
+        <button className="admin-button" onClick={() => navigate('/admin/notice/edit')}>
           공지사항 목록 조회
         </button>
         
