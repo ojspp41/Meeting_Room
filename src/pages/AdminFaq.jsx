@@ -7,7 +7,7 @@ export const AdminFaq = () => {
 
   return (
     <div className="admin-container">
-      <AdminNav title="관리자 공지사항" />
+      <AdminNav title="관리자 FAQ" />
       <div className="admin-button-container">
         <button className="admin-button" onClick={() => navigate('/admin/notice')}>
           공지사항 작성

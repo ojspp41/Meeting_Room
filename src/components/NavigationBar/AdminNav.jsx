@@ -19,8 +19,8 @@ function AdminNav({ title }) {
   const menuItems = [
     { label: "관리자 메인", path: "/admin" },
     { label: "관리자 학생회비", path: "/admin/fee" },
-    { label: "관리자 공지사항", path: "/admin/faq" },
-    { label: "관리자 FAQ", path: "/admin/notice" }
+    { label: "관리자 공지사항", path: "/admin/notice" },
+    { label: "관리자 FAQ", path: "/admin/faq" }
   ];
 
   return (
