@@ -1,0 +1,223 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .admin-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-top: 40px;
+  }
+  
+  .admin-button {
+    color: #fff;
+    padding: 12px 20px;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 220px;
+    
+    background-color: #2b2b2b;
+    text-align: center;
+  }
+  
+  .admin-button:hover {
+    background-color: #2b2b2b;
+    color: #ddd;
+  }
+  
+
+  
+  
+  .adminwrite-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .adminwrite-input,
+  .adminwrite-textarea {
+    width: calc(100% -40px);
+    padding: 12px;
+    border: 2px solid #464646;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  .adminwrite-textarea {
+    height: 200px;
+    resize: none;
+  }
+  
+  .adminwrite-submit-button {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 20px;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .adminwrite-submit-button:hover {
+    background-color: #444;
+    color: #ddd;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: #000000be;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+  }
+  
+  .modal-input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    background-color: #ffffff;
+  }
+  .modal-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 15px;
+  }
+  
+  .modal-button {
+    width: 30%;
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .modal-button:hover {
+    background-color: #444;
+    transform: scale(1.05);
+  }
+  
+  .modal-button.close {
+    background-color: #d9534f;
+    color: white;
+  }
+  
+  .modal-button.close:hover {
+    background-color: #c9302c;
+  }
+  .search-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 20px 0;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #fff;
+  }
+  
+  .list-container {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000b2;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    color: #ffffff;
+  }
+  
+  .list-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .list-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    transition: background 0.3s ease;
+  }
+  
+  .edit-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .edit-button:hover {
+    background-color: #45a049;
+  }
+  
+  .delete-button {
+    background-color: #d9534f;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #c9302c;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    background-color: #000;
+    color: #fff;
+    padding: 8px 12px;
+    margin: 5px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  

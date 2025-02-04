@@ -39,13 +39,14 @@ export const DropdownMenu = styled.div`
 `;
 
 export const DropdownItem = styled.div`
-  font-size: 16px;
+
+  font-size: 20px;
   font-weight: 400;
   line-height: 16px;
   color: #121212;
-  padding: 12px 16px;
+  padding: 35px 16px 15px 0px;
   cursor: pointer;
-
+  
   &:hover {
     background-color: #f5f5f5;
   }
