@@ -18,7 +18,7 @@ function FeeCertification() {
     };
     console.log(name,studentId);
     try {
-      const response = await fetch('/api/signup/verify', {
+      const response = await fetch('https://csiereserve.store/api/admin/studentFeePayer/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,14 +10,14 @@ export const AdminFee = () => {
   const [studentId, setStudentId] = useState('');
 
   const handleAddStudentFeePayer = async () => {
-    const response = await fetch('/api/admin/studentFeePayer/create', {
+    const response = await fetch('https://csiereserve.store/api/admin/studentFeePayer/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ name, studentId }),
     });
-
+    console.log(response);
     if (response.ok) {
       alert('학생회비자가 추가되었습니다.');
       setIsModalOpen(false);
