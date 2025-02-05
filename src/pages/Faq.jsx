@@ -1,38 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import './css/faq.css';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
+
 export const Faq = () => {
-  const [faqs, setFaqs] = useState([
-    {
-      id: 1,
-      question: "배송 기간은 얼마나 걸리나요?",
-      answer: "평균적으로 2~3일 정도 소요됩니다.",
-      createAt: "2025-01-01T12:00:00"
-    },
-    {
-      id: 2,
-      question: "환불 정책은 어떻게 되나요?",
-      answer: "제품 수령 후 7일 이내에 환불 요청이 가능합니다.",
-      createAt: "2025-01-02T14:30:00"
-    }
-  ]);
+  const [faqs, setFaqs] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchFaqs = async () => {
-  //     try {
-  //       const response = await fetch('/api/faq/getAll');
-  //       const result = await response.json();
-  //       if (result.message === "FAQ 조회 성공") {
-  //         setFaqs(result.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("FAQ 데이터를 가져오는 중 오류 발생: ", error);
-  //     }
-  //   };
-  //
-  //   fetchFaqs();
-  // }, []);
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        console.log(response);
+        const response = await fetch('https://csiereserve.store/api/admin/faq/getAll');
+        if (!response.ok) {
+          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log("API 응답 데이터:", result);
+        
+        if (result.message === "FAQ 조회 성공" && Array.isArray(result.data)) {
+          setFaqs(result.data);
+        }
+      } catch (error) {
+        console.error("FAQ 데이터를 가져오는 중 오류 발생: ", error);
+      }
+    };
 
+    fetchFaqs();
+  }, []);
   return (
     <div className="faq-container">
       <NavigationBar title="FAQ"/>
