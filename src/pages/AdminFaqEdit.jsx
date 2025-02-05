@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useFaqStore } from '../../store';
 
 export const AdminFaqEdit = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
