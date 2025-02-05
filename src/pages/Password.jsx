@@ -11,14 +11,14 @@ function Password() {
     if (!isMatch) return;
 
     const payload = {
-      name,
-      userStudnetId: studentId,
+      name: "오준",
+      userStudnetId: "21040",
       userPassword: password,
     };
     
-    console.log(name,studentId,password);
+    console.log(payload);
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('https://csiereserve.store/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
