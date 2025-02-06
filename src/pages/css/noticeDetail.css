@@ -36,6 +36,7 @@
     font-weight: 400;
     line-height: 24px;
     margin-bottom: 40px;
+    white-space: pre-wrap; /* 개행 및 공백 유지 */
   }
   .notice-details{
     text-align: left;
@@ -74,12 +75,11 @@
     line-height: 14px;
 }
 .next-notice-date {
-    
     color: #767676;
     padding: 20px;
     font-size: 17px;
     font-weight: 300;
-    line-height: 14px;
+    line-height: 30px;
 }
 .next-notice-button {
     background-color: black;
@@ -92,4 +92,9 @@
     padding: 0 15px;
     margin: 5px auto;
     border-radius: 10px;
+}
+.no-next-notices{
+  text-align: center;
+  color: #767676;
+  margin-bottom: 30px;
 }

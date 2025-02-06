@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useFeeStore } from '../../store';
 import './css/FeeCertification.css';
-
+import { useNavigate } from 'react-router-dom';
 function Password() {
+  const navigate = useNavigate();
   const { name, studentId, password, setPassword } = useFeeStore();
   const [confirmPassword, setConfirmPassword] = useState('');
   const isMatch = password && confirmPassword && password === confirmPassword;
@@ -11,8 +12,8 @@ function Password() {
     if (!isMatch) return;
 
     const payload = {
-      name: "오준",
-      userStudnetId: "21040",
+      name: name,
+      userStudnetId: studentId,
       userPassword: password,
     };
     
@@ -32,6 +33,7 @@ function Password() {
 
       const result = await response.json();
       alert(`회원가입 완료: ${result.message}`);
+      navigate('/'); // ✅ 회원가입 완료 후 메인 페이지로 이동
     } catch (error) {
       alert(`회원가입 실패: ${error.message}`);
     }

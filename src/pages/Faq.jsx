@@ -32,7 +32,7 @@ export const Faq = () => {
         {faqs.map((faq, index) => (
           <div key={faq.id} className="faq-item">
             <h3 className="faq-question">{index + 1}. {faq.question}</h3>
-            <p className="faq-answer">{faq.answer}</p>
+            <p className="faq-content">{faq.answer}</p>
           </div>
         ))}
       </div>
