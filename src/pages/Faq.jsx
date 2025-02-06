@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './css/faq.css';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
-
+import instance from '../axiosConfig';
 export const Faq = () => {
   const [faqs, setFaqs] = useState([]);
 
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch('https://csiereserve.store/api/faq/getAll');
-        
+        const response = await instance.get('/faq/getAll');
+
         if (response.status === 200) {
-          const result = await response.json();
-          console.log("API 응답 데이터:", result);
+          console.log("API 응답 데이터:", response.data);
           
-          if (Array.isArray(result.data)) {
-            setFaqs(result.data);
+          if (Array.isArray(response.data.data)) {
+            setFaqs(response.data.data);
           }
-        } else {
-          throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
         }
       } catch (error) {
         console.error("FAQ 데이터를 가져오는 중 오류 발생: ", error);

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/admin.css';
-
+import axiosCookie from '../../axiosCookie';
 import AdminNav from '../components/NavigationBar/AdminNav';
+
 export const AdminFee = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,23 +11,31 @@ export const AdminFee = () => {
   const [studentId, setStudentId] = useState('');
 
   const handleAddStudentFeePayer = async () => {
-    const response = await fetch('https://csiereserve.store/api/admin/studentFeePayer/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, studentId }),
-    });
-    console.log(response);
-    if (response.ok) {
-      alert('학생회비자가 추가되었습니다.');
-      setIsModalOpen(false);
-      setName('');
-      setStudentId('');
-    } else {
-      alert('추가 실패. 다시 시도하세요.');
+    
+
+    try {
+        const response = await axiosCookie.post('/api/admin/studentFeePayer/create', {
+            name,
+            studentId,
+        });
+
+        console.log(response);
+
+        if (response.status === 200) {
+            alert('학생회비자가 추가되었습니다.');
+            setIsModalOpen(false);
+            setName('');
+            setStudentId('');
+        } else {
+            alert('추가 실패. 다시 시도하세요.');
+        }
+    } catch (error) {
+        console.error('Error adding student fee payer:', error);
+        alert('추가 실패. 다시 시도하세요.');
     }
-  };
+};
+
+  
 
   return (
     <div className="admin-container">
@@ -58,15 +67,13 @@ export const AdminFee = () => {
               className="modal-input"
             />
             <div className="modal-button-container">
-                
-                <button className="modal-button close" onClick={() => setIsModalOpen(false)}>
+              <button className="modal-button close" onClick={() => setIsModalOpen(false)}>
                 닫기
-                </button>
-                <button className="modal-button" onClick={handleAddStudentFeePayer}>
+              </button>
+              <button className="modal-button" onClick={handleAddStudentFeePayer}>
                 추가
-                </button>
+              </button>
             </div>
-            
           </div>
         </div>
       )}
