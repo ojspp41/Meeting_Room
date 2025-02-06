@@ -36,6 +36,7 @@ export const Faq = () => {
           </div>
         ))}
       </div>
+      <div className="mb"></div>
       <button className="faq-button fixed-button">직접 문의하기</button>
     </div>
   );
