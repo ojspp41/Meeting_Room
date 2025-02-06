@@ -3,43 +3,48 @@ import './css/admin.css';
 import AdminNav from '../components/NavigationBar/AdminNav';
 import { useNavigate } from 'react-router-dom';
 import { useNoticeStore } from '../../store';
+import axiosCookie from '../../axiosCookie';
 
 export const AdminNoticeEdit = () => {
   const navigate = useNavigate();
   const { setId, setTitle, setContent } = useNoticeStore();
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // 공지사항 목록 데이터
   const [error, setError] = useState(null);
   const itemsPerPage = 7;
 
   useEffect(() => {
     fetchNotices();
   }, []);
-  
-  // ✅ 공지사항 목록 불러오기 (목데이터)
-  const fetchNotices = () => {
-    const mockData = [
-      { id: 1, title: "서비스 이용 방법은?", content: "서비스 이용 방법은 홈페이지에서 확인 가능합니다." },
-      { id: 2, title: "비밀번호 변경은 어떻게 하나요?", content: "마이페이지에서 비밀번호 변경이 가능합니다." },
-      { id: 3, title: "회원 탈퇴는 어떻게 하나요?", content: "회원 탈퇴는 고객센터를 통해 신청할 수 있습니다." },
-      { id: 4, title: "환불 규정은 어떻게 되나요?", content: "환불 규정은 이용약관에서 확인할 수 있습니다." },
-      { id: 5, title: "결제 수단은 무엇이 있나요?", content: "신용카드, 계좌이체, 카카오페이 등이 지원됩니다." },
-    ];
-    setData(mockData);
-  };
 
-  // ✅ 공지사항 삭제
-  const handleDelete = async (id) => {
+  // ✅ 공지사항 목록 불러오기 (axiosCookie 사용)
+  const fetchNotices = async () => {
     try {
-      const response = await fetch(`/api/notice/${id}`, { method: 'DELETE' });
-      if (response.ok) {
-        setData(prevData => prevData.filter(item => item.id !== id));
-        setCurrentPage(prev => Math.max(1, Math.ceil((data.length - 1) / itemsPerPage))); // 페이지 유지
+      const response = await axiosCookie.get('/api/notice'); // 공지사항 목록 조회
+      console.log(response);
+      
+      if (response.data?.data?.noticeList) {
+        setData(response.data.data.noticeList);
+      } else {
+        setError('공지사항 데이터를 불러오는 데 실패했습니다.');
       }
     } catch (error) {
-      console.error('Error deleting notice:', error);
+      console.error('Error fetching notices:', error.response?.data || error.message);
+      setError('공지사항 데이터를 불러오는 중 오류가 발생했습니다.');
+    }
+  };
+
+  // ✅ 공지사항 삭제 (axiosCookie 사용)
+  const handleDelete = async (id) => {
+    try {
+      await axiosCookie.delete(`/api/notice/${id}`);
+
+      setData(prevData => prevData.filter(item => item.id !== id));
+      setCurrentPage(prev => Math.max(1, Math.ceil((data.length - 1) / itemsPerPage))); // 페이지 유지
+    } catch (error) {
+      console.error('Error deleting notice:', error.response?.data || error.message);
       setError('공지사항 삭제 중 오류가 발생했습니다.');
     }
   };
@@ -49,7 +54,7 @@ export const AdminNoticeEdit = () => {
     setId(item.id);
     setTitle(item.title);
     setContent(item.content);
-    
+
     navigate(`/admin/notice/editdetail/${item.id}`);
   };
 

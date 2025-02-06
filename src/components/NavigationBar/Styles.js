@@ -14,6 +14,8 @@ export const NavBarContainer = styled.div`
   font-weight: bold;
   line-height: 150%;
   border-bottom: 1px solid #B4B4B4; /* 하단 보더 추가 */
+  z-index: 100;
+  
   
 `;
 

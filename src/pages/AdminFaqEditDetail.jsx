@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/admin.css';
 import { useFaqStore } from '../../store';
 import AdminNav from '../components/NavigationBar/AdminNav';
-
+import axiosCookie from '../../axiosCookie';
 export const AdminFaqEditDetail = () => {
   const { id, question, answer, setQuestion, setAnswer } = useFaqStore();
   const navigate = useNavigate();
@@ -13,22 +13,19 @@ export const AdminFaqEditDetail = () => {
   const [updatedAnswer, setUpdatedAnswer] = useState(answer);
   
   const handleUpdate = async () => {
-    const response = await fetch(`/api/admin/faq/update/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ question: updatedQuestion, answer: updatedAnswer }),
-    });
-
-    if (response.ok) {
+    try {
+      const response = await axiosCookie.put(`/api/admin/faq/update/${id}`, {
+        question: updatedQuestion,
+        answer: updatedAnswer,
+      });
+  
       alert('FAQ가 수정되었습니다.');
       navigate('/admin/faq/edit'); // 수정 후 목록 페이지로 이동
-    } else {
+    } catch (error) {
+      console.error('FAQ 수정 실패:', error.response?.data || error.message);
       alert('FAQ 수정에 실패했습니다.');
     }
   };
-
   useEffect(() => {
     if (!id || !question) {
       alert("잘못된 접근입니다.");
