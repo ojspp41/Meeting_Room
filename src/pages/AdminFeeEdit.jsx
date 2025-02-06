@@ -57,27 +57,26 @@ export const AdminFeeEdit = () => {
     setIsModalOpen(true);
   };
 
-  const handleUpdate = () => {
-    
-    fetch(`/api/admin/studentFeePayer/update/${editId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, studentId }),
-    })
-      .then(response => {
-        if (response.ok) {
-          setData(data.map(item => (item.id === editId ? { ...item, name, studentId } : item)));
-          setIsModalOpen(false);
-        }
-      })
-      .catch(error => console.error('Error updating:', error));
+
+  const handleUpdate = async () => {
+    try {
+      await axiosCookie.put(`/api/admin/studentFeePayer/update/${editId}`, {
+        name,
+        studentId,
+      });
+
+      setData(data.map(item => (item.id === editId ? { ...item, name, studentId } : item)));
+      setIsModalOpen(false);
+      alert("수정완료되었습니다");
+    } catch (error) {
+      console.error('Error updating:', error.response?.data || error.message);
+    }
   };
 
-  const filteredData = data.filter((item) =>
-    item.name.includes(searchTerm)
-  );
+
+    const filteredData = data.filter((item) =>
+      item.name.includes(searchTerm)
+    );
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const displayedData = filteredData.slice(

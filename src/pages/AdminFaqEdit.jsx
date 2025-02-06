@@ -19,46 +19,33 @@ export const AdminFaqEdit = () => {
     fetchFaqs();
   }, []);
 
-  // FAQ 목록 불러오기
-//   const fetchFaqs = () => {
-//     fetch('/api/faq/getAll')
-//       .then(response => response.json())
-//       .then(result => {
-//         if (result.data) {
-//           setData(result.data);
-//         }
-//       })
-//       .catch(error => {
-//         console.error('Error fetching FAQ data:', error);
-//         setError('FAQ 데이터를 불러오는 중 오류가 발생했습니다.');
-//       });
-//   };
+  const fetchFaqs = async () => {
+    try {
+      const response = await axiosCookie.get('/api/faq/getAll');
+      console.log(response)
+      if (response.data) {
+        setData(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching FAQ data:', error.response?.data || error.message);
+      setError('FAQ 데이터를 불러오는 중 오류가 발생했습니다.');
+    }
+  };
 
-    const fetchFaqs = () => {
-        // 목데이터(Mock Data)
-        const mockData = [
-        { id: 1, question: "서비스 이용 방법은?", answer: "서비스 이용 방법은 홈페이지에서 확인 가능합니다." },
-        { id: 2, question: "비밀번호 변경은 어떻게 하나요?", answer: "마이페이지에서 비밀번호 변경이 가능합니다." },
-        { id: 3, question: "회원 탈퇴는 어떻게 하나요?", answer: "회원 탈퇴는 고객센터를 통해 신청할 수 있습니다." },
-        { id: 4, question: "환불 규정은 어떻게 되나요?", answer: "환불 규정은 이용약관에서 확인할 수 있습니다." },
-        { id: 5, question: "결제 수단은 무엇이 있나요?", answer: "신용카드, 계좌이체, 카카오페이 등이 지원됩니다." },
-        ];
     
-        // 상태 업데이트
-        setData(mockData);
-    };
   
 
   // FAQ 삭제
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`/api/admin/faq/delete/${id}`, { method: 'DELETE' });
-      if (response.ok) {
+      const response = await axiosCookie.delete(`/api/admin/faq/delete/${id}`);
+  
+      if (response.status === 200) {
         setData(prevData => prevData.filter(item => item.id !== id));
         setCurrentPage(prev => Math.max(1, Math.ceil((data.length - 1) / itemsPerPage))); // 페이지 유지
       }
     } catch (error) {
-      console.error('Error deleting FAQ:', error);
+      console.error('Error deleting FAQ:', error.response?.data || error.message);
       setError('FAQ 삭제 중 오류가 발생했습니다.');
     }
   };

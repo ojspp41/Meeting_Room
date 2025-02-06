@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/admin.css';
 import { useNoticeStore } from '../../store';
 import AdminNav from '../components/NavigationBar/AdminNav';
-
+import axiosCookie from '../../axiosCookie';
 export const AdminNoticeEditDetail = () => {
   const { id, title, content, setTitle, setContent } = useNoticeStore();
   const navigate = useNavigate();
@@ -15,23 +15,22 @@ export const AdminNoticeEditDetail = () => {
   const [updatedTitle, setUpdatedTitle] = useState(title);
   const [updatedContent, setUpdatedContent] = useState(content);
 
-  // ✅ 공지사항 수정 요청
+ 
   const handleUpdate = async () => {
-    const response = await fetch(`/api/notice/${id}`, {
-      method: 'POST',  // ✅ POST 방식
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title: updatedTitle, content: updatedContent }),
-    });
+    try {
+      await axiosCookie.post(`/api/notice/${id}`, {
+        title: updatedTitle,
+        content: updatedContent,
+      });
 
-    if (response.ok) {
       alert('공지사항이 수정되었습니다.');
-      navigate('/admin/notice'); // 수정 후 목록 페이지로 이동
-    } else {
+      navigate('/admin/notice/edit'); // 수정 후 목록 페이지로 이동
+    } catch (error) {
+      console.error('공지사항 수정 실패:', error.response?.data || error.message);
       alert('공지사항 수정에 실패했습니다.');
     }
   };
+
 
   // ✅ 잘못된 접근 방지 (id 또는 title이 없으면 목록 페이지로 이동)
   useEffect(() => {
