@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './css/Unlogin.css';
-
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 function AdminLogin() {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
-
+  const navigate = useNavigate();
+  
   const toggleTooltip = () => {
     setShowTooltip(!showTooltip);
   };
@@ -20,24 +22,19 @@ function AdminLogin() {
       studentId,
       password,
     };
-    console.log(studentId,password);
+
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
+      const response = await axios.post('https://csiereserve.store/api/login123', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        withCredentials: true, // 쿠키 저장을 위한 설정
       });
-      
-      if (!response.ok) {
-        throw new Error('로그인 실패');
-      }
 
-      const result = await response.json();
-      alert(`로그인 성공: ${result.message}`);
-    } catch (error) {
-      alert(`로그인 실패: ${error.message}`);
+      alert(`로그인 성공: ${response.data.message}`);
+      navigate('/admin');
+    } catch  {
+      alert(`로그인 실패: `);
     }
   };
 

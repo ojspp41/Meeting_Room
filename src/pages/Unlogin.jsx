@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './css/Unlogin.css';
+import axios from 'axios';
 
+import { useNavigate } from 'react-router-dom';
 function Unlogin() {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
+  const navigate = useNavigate();
 
   const toggleTooltip = () => {
     setShowTooltip(!showTooltip);
@@ -20,24 +23,20 @@ function Unlogin() {
       studentId,
       password,
     };
-    console.log(studentId,password);
+
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
+      const response = await axios.post('https://csiereserve.store/api/login123', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        withCredentials: true, // 자동으로 쿠키 포함
+        
       });
       
-      if (!response.ok) {
-        throw new Error('로그인 실패');
-      }
-
-      const result = await response.json();
-      alert(`로그인 성공: ${result.message}`);
+      alert(`로그인 성공: ${response.data.message}`);
+      navigate('/mainpage');
     } catch (error) {
-      alert(`로그인 실패: ${error.message}`);
+      alert(`로그인 실패: ${error.response?.data?.message || error.message}`);
     }
   };
 

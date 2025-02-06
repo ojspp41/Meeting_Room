@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './css/admin.css';
 import AdminNav from '../components/NavigationBar/AdminNav';
+import axiosCookie from '../../axiosCookie';
 export const AdminFeeEdit = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([
-    { id: 1, name: "홍길동1", studentId: "20210001" },
-    { id: 2, name: "홍길동2", studentId: "20210002" }
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -17,27 +16,39 @@ export const AdminFeeEdit = () => {
   
 
   useEffect(() => {
-    fetch('/api/admin/studentFeePayer/getAll')
-      .then(response => response.json())
-      .then(result => {
-        if (result.data) {
-          setData(result.data);
-        }
-      })
-      .catch(error => console.error('Error fetching data:', error));
+    fetchFeePayers();
   }, []);
 
-  const handleDelete = (id) => {
-    fetch(`/api/admin/studentFeePayer/delete/${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        if (response.ok) {
-          setData(data.filter(item => item.id !== id));
-        }
-      })
-      .catch(error => console.error('Error deleting:', error));
+  const fetchFeePayers = async () => {
+    try {
+      const response = await axiosCookie.get('/api/studentFeePayer/getAll', {
+        withCredentials: true, // 쿠키 자동 포함
+      });
+  
+      console.log(response);
+      if (response.data) {
+        setData(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error.response?.data || error.message);
+    }
   };
+  
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axiosCookie.delete(`/api/admin/studentFeePayer/delete/${id}`, {
+        withCredentials: true, // 쿠키 자동 포함
+      });
+  
+      if (response.status === 200) {
+        setData(data.filter(item => item.id !== id));
+      }
+    } catch (error) {
+      console.error('Error deleting:', error.response?.data || error.message);
+    }
+  };
+  
 
   const handleEdit = (item) => {
     setEditId(item.id);

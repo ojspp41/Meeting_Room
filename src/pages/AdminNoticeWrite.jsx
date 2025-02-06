@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/admin.css';
-
+import axiosCookie from '../../axiosCookie';
 import AdminNav from '../components/NavigationBar/AdminNav';
 export const AdminNoticeWrite = () => {
   const navigate = useNavigate();
@@ -9,21 +9,23 @@ export const AdminNoticeWrite = () => {
   const [content, setContent] = useState('');
 
   const handleSubmit = async () => {
-    const response = await fetch('/api/notice', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, content }),
-    });
+    try {
+        const response = await axiosCookie.post('/api/notice', {
+            title,
+            content,
+        });
 
-    if (response.ok) {
-      alert('공지사항이 등록되었습니다.');
-      navigate('/admin/notice');
-    } else {
-      alert('공지사항 등록에 실패했습니다.');
+        if (response.status === 200) {
+            alert('공지사항이 등록되었습니다.');
+            navigate('/admin/notice');
+        } else {
+            alert('공지사항 등록에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('Error submitting notice:', error);
+        alert('공지사항 등록에 실패했습니다.');
     }
-  };
+};
 
   return (
     <div className="admin-container">

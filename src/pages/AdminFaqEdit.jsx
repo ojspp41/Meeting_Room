@@ -3,7 +3,7 @@ import './css/admin.css';
 import AdminNav from '../components/NavigationBar/AdminNav';
 import { useNavigate } from 'react-router-dom';
 import { useFaqStore } from '../../store';
-
+import axiosCookie from '../../axiosCookie';
 export const AdminFaqEdit = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');

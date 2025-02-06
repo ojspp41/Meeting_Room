@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './css/FeeCertification.css';
 import { useNavigate } from 'react-router-dom';
 import { useFeeStore } from '../../store';
+import instance from '../axiosConfig';
 function FeeCertification() {
   const { name, setName, studentId, setStudentId } = useFeeStore();
   const navigate = useNavigate();
@@ -16,25 +17,14 @@ function FeeCertification() {
       name,
       studentId,
     };
-    console.log(name,studentId);
+    console.log(name, studentId);
     try {
-      const response = await fetch('https://csiereserve.store/api/admin/studentFeePayer/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await instance.post('/admin/studentFeePayer/verify', payload);
       
-      if (!response.ok) {
-        throw new Error('서버 오류 발생');
-      }
-
-      const result = await response.json();
-      alert(`인증 완료: ${result.message}`);
+      alert(`인증 완료: ${response.data.message}`);
       navigate('/password');
-    } catch (error) {
-      alert(`인증 실패: ${error.message}`);
+    } catch  {
+      alert('학생회비 납부 회원이 아닙니다.');
     }
   };
   return (
