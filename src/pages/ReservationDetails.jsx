@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './css/ReservationDetails.css';
 import '../components/NavigationBar/NavigationBar'
 import NavigationBar from '../components/NavigationBar/NavigationBar';
@@ -7,6 +7,8 @@ import SuccessModal from '../components/SuccessModal/SuccessModal'
 
 function ReservationDetails() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     facility,
     name,
@@ -39,8 +41,12 @@ function ReservationDetails() {
 
   const handleReservationComplete = () => {
     setIsModalOpen(true);
+    setTimeout(() => {
+    navigate('/mainpage'); 
+    }, 2000);
   };
 
+  
   return (
     <div className="container">
       <NavigationBar title="컴퓨터정보공학부" />
