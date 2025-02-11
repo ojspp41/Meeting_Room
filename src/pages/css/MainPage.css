@@ -52,7 +52,7 @@
   
   
   .time-slot:hover {
-    background-color: #e0e0e0; /* 기본 호버 효과 */
+    background-color: #e0e0e0; 
   }
   
 .next-step-button{
@@ -77,4 +77,10 @@
     box-shadow: 0px 0px 1px 0px #0C2E86;
     color: var(--catholic-color, #0C2E86);
   }
+}
+
+.fully-booked {
+  background-color: gray !important;
+  color: white !important;
+  pointer-events: none;  /* 클릭 방지 */
 }
