@@ -44,15 +44,17 @@ function MainPage() {
     setDate(selectedDate);
     setSelectedDate(selectedDate);
     setSelectedTime('');
-
+  
     const isAvailable = await fetchAvailableTimes(selectedDate);
     if (isAvailable) {
       const allSlots = [];
-      for (let hour = 10; hour <= 16; hour++) {
+      for (let hour = 10; hour < 22; hour += 2) { 
+        const startTime = `${hour}:00`;
+        const endTime = `${hour + 2}:00`;
         const isReserved = reservedTimes[selectedDate.getDate()]?.some(
           (res) => hour >= res.start && hour < res.end
         );
-        allSlots.push({ time: `${hour}:00`, isReserved });
+        allSlots.push({ time: `${startTime}~${endTime}`, isReserved });
       }
       setAvailableTimes(allSlots);
     } else {

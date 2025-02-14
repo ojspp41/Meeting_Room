@@ -57,6 +57,12 @@
     cursor: pointer; 
   }
   
+  .time-slot.selected {
+    background-color: #0C2E861A;
+    color: #0C2E86;               
+    border: 2px solid #0C2E86;  
+    font-weight: bold;           
+  }
   .time-slot.reserved {
     background-color: gray; 
     color: white;
@@ -94,5 +100,5 @@
 .fully-booked {
   background-color: gray !important;
   color: white !important;
-  pointer-events: none;  /* 클릭 방지 */
+  pointer-events: none;  
 }
