@@ -17,7 +17,7 @@ function NavigationBar({ title }) {
 
 
   const menuItems = [
-    { label: "예약 일정 확인/취소", path: "/reservation-details" },
+    { label: "예약 일정 확인/취소", path: "/reservation" },
     { label: "교내 타회의실 예약", path: "/" },
     { label: "자주 묻는 질문", path: "/faq" },
     { label: "공지사항", path: "/notice" },

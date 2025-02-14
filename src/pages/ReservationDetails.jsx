@@ -1,8 +1,10 @@
+// ReservationDetails.js
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
 import SuccessModal from '../components/SuccessModal/SuccessModal';
-import * as S from '../pages/css/ReservationDetailsStyles'; 
+import { createReservation } from '../apis/createReservation'; 
+import * as S from '../pages/css/ReservationDetailsStyles';
 
 function ReservationDetails() {
   const location = useLocation();
@@ -38,11 +40,18 @@ function ReservationDetails() {
     setParticipants(e.target.value);
   };
 
-  const handleReservationComplete = () => {
-    setIsModalOpen(true);
-    setTimeout(() => {
-      navigate('/mainpage');
-    }, 2000);
+  const handleReservationComplete = async () => {
+    try {
+      await createReservation(phone, time.split('~')[0], time.split('~')[1], participants, date);
+      
+      setIsModalOpen(true); 
+      setTimeout(() => {
+        navigate('/mainpage'); 
+      }, 2000);
+    } catch (error) {
+      console.error('예약 실패:', error.message);
+      alert('예약에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -52,32 +61,19 @@ function ReservationDetails() {
         {reservationDetails &&
           Object.entries(reservationDetails).map(([key, value]) => (
             <S.DetailItem key={key}>
-              <S.OptionContainer>
-                {key}
-              </S.OptionContainer>
+              <S.OptionContainer>{key}</S.OptionContainer>
               {value}
             </S.DetailItem>
           ))}
 
         <S.DetailItem>
-          <S.OptionContainer>
-            전화번호
-          </S.OptionContainer>
-          <S.PhoneInput
-            type="text"
-            value={phone}
-            onChange={handlePhoneChange}
-          />
+          <S.OptionContainer>전화번호</S.OptionContainer>
+          <S.PhoneInput type="text" value={phone} onChange={handlePhoneChange} />
         </S.DetailItem>
 
         <S.DetailItem>
-          <S.OptionContainer>
-            참가인원
-          </S.OptionContainer>
-          <S.ParticipantsSelect
-            value={participants}
-            onChange={handleParticipantsChange}
-          >
+          <S.OptionContainer>참가인원</S.OptionContainer>
+          <S.ParticipantsSelect value={participants} onChange={handleParticipantsChange}>
             {[2, 3, 4, 5].map((num) => (
               <option key={num} value={num}>
                 {num}명

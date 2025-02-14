@@ -8,7 +8,7 @@ export const fetchAvailableTimes = async (selectedDate) => {
     const response = await axios.post('https://csiereserve.store/api/reservation/check', {
       reservationDate: formattedDate,
       reservationStartTime: '10:00',
-      reservationEndTime: '16:00',
+      reservationEndTime: '22:00',
     });
 
     console.log('✅ 특정 날짜 예약 가능 여부 응답:', response.data);

@@ -32,7 +32,7 @@ function MainPage() {
 
         if (!acc[day]) acc[day] = [];
         acc[day].push({ start: startHour, end: endHour });
-
+        console.log(`예약된 시간: ${startHour}:00 ~ ${endHour}:00`);
         return acc;
       }, {});
 
@@ -51,8 +51,13 @@ function MainPage() {
       for (let hour = 10; hour < 22; hour += 2) { 
         const startTime = `${hour}:00`;
         const endTime = `${hour + 2}:00`;
+        
         const isReserved = reservedTimes[selectedDate.getDate()]?.some(
-          (res) => hour >= res.start && hour < res.end
+          (res) => {
+            const slotStart = hour;
+            const slotEnd = hour + 2;
+            return (slotStart < res.end && slotEnd > res.start); 
+          }
         );
         allSlots.push({ time: `${startTime}~${endTime}`, isReserved });
       }
@@ -64,22 +69,37 @@ function MainPage() {
 
   const handleTimeSelect = (time) => {
     if (!reservedTimes[selectedDate?.getDate()]?.some(
-      (res) => time.split(':')[0] >= res.start && time.split(':')[0] < res.end
+      (res) => {
+        const slotHour = time.split(':')[0];
+        return slotHour >= res.start && slotHour < res.end;
+      }
     )) {
       setSelectedTime(time);
     }
   };
 
   const handleNextStep = () => {
+    const date = new Date(selectedDate);
+    const kstOffset = 9 * 60; 
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + kstOffset); // UTC에서 KST로 변환
+  
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, '0'); // 2자리로 포맷
+  
+    const formattedDate = `${year}-${month}-${day}`; // yyyy-mm-dd 형식으로 변환
+  
+    const [startHour, startMinute] = selectedTime.split(':');
+    const endHour = parseInt(startHour) + 2;
+  
     navigate('/reservation-details', {
       state: {
         facility: '컴공 회의실 : B208',
         name: '이지민',
         studentNumber: '202221134',
         phone: '010-1234-5678',
-        date: selectedDate?.toDateString(),
-        time: selectedTime,
-        participants: 4,
+        date: formattedDate,
+        time: `${startHour}:00 ~ ${endHour}:00`, 
       },
     });
   };

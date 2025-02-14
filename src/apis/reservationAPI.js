@@ -1,25 +1,6 @@
 import axios from "../../axiosCookie";
 
 export const fetchReservations = async () => {
-    return [
-      {
-        id: 1,
-        reservationDate: "2025-02-13",
-        reservationStartTime: "2025-02-13T10:00:00Z",
-        reservationEndTime: "2025-02-13T12:00:00Z",
-        participantCount: 3,
-      },
-      {
-        id: 2,
-        reservationDate: "2025-02-14",
-        reservationStartTime: "2025-02-14T14:00:00Z",
-        reservationEndTime: "2025-02-14T16:00:00Z",
-        participantCount: 5,
-      },
-    ];
-  };
-  /* 
-export const fetchReservations = async () => {
   try {
     const response = await axios.get("https://csiereserve.store/api/reservation/get");
     return response.data.data || [];
@@ -28,7 +9,6 @@ export const fetchReservations = async () => {
     return [];
   }
 };
-*/
 export const cancelReservation = async (id) => {
   try {
     const response = await axios.delete(`https://csiereserve.store/api/reservation/cancel/${id}`);

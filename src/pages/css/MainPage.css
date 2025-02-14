@@ -35,6 +35,10 @@
   text-decoration: none; 
 }
 
+.react-calendar__tile.fully-booked {
+  background-color: #f44336 !important; /* 빨간색으로 마감된 날짜 표시 */
+  color: white; /* 글자 색상 변경 */
+}
 
   .time-slots {
     color: #646870;

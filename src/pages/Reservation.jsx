@@ -21,6 +21,7 @@ const Reservations = () => {
   }, []);
 
   const handleCancel = async () => {
+    console.log("예약 취소 버튼 클릭됨"); 
     if (reservationToCancel) {
       const success = await cancelReservation(reservationToCancel);
       if (success) {
@@ -70,7 +71,7 @@ const Reservations = () => {
                   <div className='item-wrapper'>
                     <div className='detail-items'>신청 일자    {res.reservationDate}</div>
                     <div className='detail-items'>이용 시간    {formatTimeSlice(res.reservationStartTime)} ~ {formatTimeSlice(res.reservationEndTime)}</div>
-                    <div className='detail-items'>예약 상태    {res.reservationStatus === "RESERVED" ? "예약 완료" : res.reservationStatus}</div>
+                    <div className='detail-items'>예약 상태   {res.reservationStatus === "RESERVED" ? "예약 완료" : res.reservationStatus === "USING" ? "예약중" : res.reservationStatus}</div>
                   </div>
                   <button className="cancel-button" onClick={() => openCancelModal(res.id)}>
                     예약 취소
@@ -83,7 +84,6 @@ const Reservations = () => {
           <p>예약 내역이 없습니다.</p>
         )}
       </div>
-
       <CancelModal isOpen={modalOpen} onClose={closeModal} onConfirm={handleCancel} />
     </div>
   );
