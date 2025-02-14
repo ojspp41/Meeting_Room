@@ -88,6 +88,7 @@ function MainPage() {
       <Calendar
         onChange={handleDateChange}
         value={date}
+        locale="en-US"
         tileClassName={({ date }) => {
           return fullyBookedDates.includes(date.getDate()) ? 'fully-booked' : '';
         }}

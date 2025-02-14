@@ -6,6 +6,7 @@ import "./css/Reservation.css";
 import NavigationBar from "../components/NavigationBar/NavigationBar";
 import DownIcon from "../../public/assets/Down.svg";
 import CancelModal from "../components/CancelModal/CancelModal";
+
 const Reservations = () => {
   const [reservations, setReservations] = useRecoilState(reservationState);
   const [selectedReservation, setSelectedReservation] = useState(null); 
@@ -44,6 +45,10 @@ const Reservations = () => {
     setReservationToCancel(null);
   };
 
+  const formatTimeSlice = (dateString) => {
+    return dateString.split("T")[1].slice(0, 5); 
+  };
+
   return (
     <div className="container">
       <NavigationBar title="예약 일정 확인/취소" />
@@ -56,15 +61,17 @@ const Reservations = () => {
                 <div className="reservation-number">{index + 1}</div>
                 <p>{new Date(res.reservationDate).toLocaleDateString()}</p>
                 <button className="dropdown-icon" onClick={() => toggleReservationDetails(res.id)}>
-                  <img src={DownIcon} alt="드롭다운 아이콘" />
+                  <img src={DownIcon} />
                 </button>
               </div>
               
               {selectedReservation === res.id && (
                 <div className="reservation-details">
-                  <div className='detail-items'>신청 일자 {new Date(res.reservationStartTime).toLocaleTimeString()} ~ {new Date(res.reservationEndTime).toLocaleTimeString()}</div>
-                  <div className='detail-items'>이용 시간 {new Date(res.reservationStartTime).toLocaleTimeString()} ~ {new Date(res.reservationEndTime).toLocaleTimeString()}</div>
-                  <div className='detail-items'>예약 상태 예약중</div>
+                  <div className='item-wrapper'>
+                    <div className='detail-items'>신청 일자    {res.reservationDate}</div>
+                    <div className='detail-items'>이용 시간    {formatTimeSlice(res.reservationStartTime)} ~ {formatTimeSlice(res.reservationEndTime)}</div>
+                    <div className='detail-items'>예약 상태    {res.reservationStatus === "RESERVED" ? "예약 완료" : res.reservationStatus}</div>
+                  </div>
                   <button className="cancel-button" onClick={() => openCancelModal(res.id)}>
                     예약 취소
                   </button>
