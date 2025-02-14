@@ -21,10 +21,8 @@ function MainPage() {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
 
-    // 예약 마감된 날짜 가져오기
     fetchFullyBookedDates(year, month).then(setFullyBookedDates);
     
-    // 특정 월 예약된 시간 가져오기
     fetchReservedTimes(year, month).then((data) => {
       const reservedSlots = data.reduce((acc, reservation) => {
         const reservationDate = new Date(reservation.reservationDate);

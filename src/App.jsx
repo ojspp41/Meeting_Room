@@ -1,6 +1,7 @@
 // App.jsx
 import React from 'react';
 import './App.css';
+import { RecoilRoot } from 'recoil';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Unlogin from './pages/Unlogin';
 import FeeCertification from './pages/FeeCertification';
@@ -25,11 +26,13 @@ import AdminFaqEdit from './pages/AdminFaqEdit.jsx' ;
 import AdminFaqEditDetail from './pages/AdminFaqEditDetail.jsx' ;
 import AdminNoticeEdit from './pages/AdminNoticeEdit.jsx' ;
 import AdminNoticeEditDetail from './pages/AdminNoticeEditDetail.jsx' ;
+import Reservation from './pages/Reservation.jsx';
 
 
 function App() {
   return (
     <div className="App">
+    <RecoilRoot>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Unlogin />} />
@@ -42,6 +45,7 @@ function App() {
           <Route path="/mainpage" element={<MainPage />} />
           <Route path="/reservation-details" element={<ReservationDetails />} />
           <Route path="/notice/:id" element={<NoticeDetail />} />
+          <Route path="/reservation" element={<Reservation />} />
           {/* 관리자페이지 */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/login" element={<AdminLogin />} />   
@@ -62,6 +66,7 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+    </RecoilRoot>
     </div>
   );
 }
