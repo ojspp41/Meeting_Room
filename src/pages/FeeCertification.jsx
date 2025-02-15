@@ -7,6 +7,11 @@ function FeeCertification() {
   const { name, setName, studentId, setStudentId } = useFeeStore();
   const navigate = useNavigate();
   
+  // 학번이 9자리인지 확인
+  const isValidStudentId = studentId.length === 9 && /^\d+$/.test(studentId);
+  const isFormValid = name.trim() !== '' && isValidStudentId;
+
+
   const handleSubmit = async () => {
     if (!name || !studentId) {
       alert('이름과 학번을 입력해주세요.');
@@ -48,7 +53,13 @@ function FeeCertification() {
       </div>
 
       <div className="button-container">
-        <button className="next-button" onClick={handleSubmit}>다음</button>
+        <button 
+          className={`next-button ${isFormValid ? 'active' : ''}`} 
+          onClick={handleSubmit}
+          disabled={!isFormValid}  // 버튼 비활성화 조건 추가
+        >
+          다음
+        </button>
       </div>
     </div>
   );
