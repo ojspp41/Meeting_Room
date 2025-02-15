@@ -18,7 +18,7 @@ function Unlogin() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAnimation(false);
-    }, 5500);
+    }, 3500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -53,17 +53,17 @@ function Unlogin() {
   };
 
   return (
-    <div className="unlogin-container">
+    <div >
       {/* 5.5초 동안 애니메이션 실행 */}
       {showAnimation ? (
         <Lottie
           loop={false} // 한번만 실행
           animationData={startAnimation}
           play
-          style={{ width: '100%', height: '100vh' }} // 전체 화면
+          style={{ width: '100%', height: '100vh' ,backgroundColor:'white'}} // 전체 화면
         />
       ) : (
-        <>
+        <div className="unlogin-container">
           <img src="/assets/logo.svg" alt="Logo" className="logo" />
           <div className="subtitle">
             컴퓨터 정보공학부 <br /> 회의실
@@ -110,7 +110,7 @@ function Unlogin() {
 
 
           
-        </>
+        </div>
       )}
     </div>
   );
