@@ -83,7 +83,7 @@ function Unlogin() {
       )}
       
       <div className="inquiry-container">
-        <a href="/inquiry" className="inquiry-link">문의하기</a>
+        <a href="https://open.kakao.com/o/sQDWgggh" className="inquiry-link">문의하기</a>
       </div>
     </div>
   );

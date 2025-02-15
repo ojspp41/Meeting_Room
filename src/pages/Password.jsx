@@ -6,8 +6,11 @@ function Password() {
   const navigate = useNavigate();
   const { name, studentId, password, setPassword } = useFeeStore();
   const [confirmPassword, setConfirmPassword] = useState('');
-  const isMatch = password && confirmPassword && password === confirmPassword;
-
+  // 비밀번호 검증 (소문자 + 숫자 포함, 5~10자리)
+  const isValidPassword = password.length >= 5 && password.length <= 10 && /[a-z]/.test(password) && /\d/.test(password);
+  
+  // 비밀번호 확인
+  const isMatch = isValidPassword && password === confirmPassword;
   const handleSubmit = async () => {
     if (!isMatch) return;
 
@@ -65,14 +68,15 @@ function Password() {
             onChange={(e) => setConfirmPassword(e.target.value)} 
           />
         </div>
-        <p className="form-info">* 비밀번호를 한 번 더 입력하세요.</p>
+        <p className="form-info">* 비밀번호 소문자 + 숫자 포함 5~10자리 </p>
+        
       </div>
 
       <div className="button-container">
         <button 
           className="next-button" 
-          style={{ backgroundColor: isMatch ? 'black' : '#d3d3d3', cursor: isMatch ? 'pointer' : 'not-allowed' }}
-          disabled={!isMatch}
+          style={{ backgroundColor: isMatch && isValidPassword  ? 'black' : '#d3d3d3', cursor: isMatch ? 'pointer' : 'not-allowed' }}
+          disabled={!isMatch || !isValidPassword }
           onClick={handleSubmit}
         >
           다음
