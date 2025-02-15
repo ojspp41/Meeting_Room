@@ -67,34 +67,52 @@
   }
   
   /* 문의하기 스타일 */
-.inquiry-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 20px;
-    left: 48%;
-    transform: translateX(-50%);
-  }
-  .inquiry-icon-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 20px;
-    left: 10%;
-    transform: translateX(-50%);
-  }
-  .inquiry-icon {
-    width: 24px;
-    color: #888;
-    margin-right: px;
-  }
+  /* 문의하기 스타일 */
+/* 문의하기 전체 컨테이너 */
+/* 전체 컨테이너 */
+.inquiry-wrapper {
+  position: relative; /* 내부 요소들의 위치를 조정하기 위해 사용 */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+/* 아이콘 (왼쪽 고정) */
+.inquiry-icon {
+  position: absolute;
+  left: 10px; /* 왼쪽에 고정 */
+  width: 24px;
+  color: #888;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+/* 문의하기 버튼 (가운데 정렬) */
+.inquiry-link {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #aaa;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.inquiry-link:hover {
+  color: #555;
+  text-decoration: underline;
+}
+
+
+
+
   /* 말풍선 스타일 */
-.tooltip {
+  .tooltip {
     position: absolute;
     width: 80%;
-    bottom: 60px;
+    bottom: 10px;
     left: 7%;
     background: white;
     border-radius: 10px;
