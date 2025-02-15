@@ -9,20 +9,30 @@ const NoticeDetail = () => {
   const { id } = useParams(); // URL에서 id 가져오기
   const [notice, setNotice] = useState(null);
   const [nextNotices, setNextNotices] = useState([]);
+  const [idArray, setIdArray] = useState([]);
+  const [idMap, setIdMap] = useState(new Map());
+  
+  useEffect(() => {
+    // ✅ `localStorage`에서 공지사항 ID 목록을 가져와서 `useState`에 저장
+    const storedIds = JSON.parse(localStorage.getItem('noticeIds')) || [];
+    setIdArray(storedIds);
+
+    // ✅ Map으로 변환하여 빠른 검색 가능하도록 최적화
+    const map = new Map(storedIds.map((id, index) => [id, index]));
+    setIdMap(map);
+  }, []);
 
   useEffect(() => {
-    if (id) {
-      fetchNotices(Number(id)); // 현재 공지사항 및 다음 2개 공지사항 가져오기
+    if (id && idArray.length > 0 && idMap.size > 0) {
+      fetchNoticeById(Number(id));
     }
-  }, [id]);
+  }, [id, idArray, idMap]);
 
-  // ✅ 공지사항 데이터 가져오기 (현재 ID + 다음 ID 2개)
-  const fetchNotices = async (noticeId) => {
+  // ✅ 현재 공지사항 가져오기 + 다음 공지사항 찾기
+  const fetchNoticeById = async (noticeId) => {
     try {
-      // 현재 공지사항 가져오기
+      // ✅ 현재 공지사항 가져오기
       const currentResponse = await axiosCookie.get(`/api/notice/${noticeId}`);
-      console.log('📌 현재 공지사항 응답:', currentResponse);
-
       if (currentResponse.data?.data) {
         setNotice({
           title: currentResponse.data.data.title,
@@ -31,29 +41,34 @@ const NoticeDetail = () => {
         });
       }
 
-      // ✅ 다음 공지사항 요청 (id+1, id+2)
-      const nextNoticeRequests = [
-        axiosCookie.get(`/api/notice/${noticeId + 1}`).catch(error => null), // 실패 시 null 반환
-        axiosCookie.get(`/api/notice/${noticeId + 2}`).catch(error => null),
-      ];
+      // ✅ 다음 공지사항 찾기 (O(1) 조회)
+      const currentIndex = idMap.get(noticeId);
 
-      const [nextResponse1, nextResponse2] = await Promise.all(nextNoticeRequests);
-      console.log('📌 다음 공지사항 응답:', nextResponse1, nextResponse2);
+      const nextNoticesData = [];
+      if (idArray[currentIndex + 1]) {
+        const nextResponse = await axiosCookie.get(`/api/notice/${idArray[currentIndex + 1]}`);
+        nextNoticesData.push({
+          id: nextResponse.data.data.id,
+          title: nextResponse.data.data.title,
+          date: formatDate(nextResponse.data.data.createdAt),
+        });
+      }
 
-      // ✅ 데이터가 존재하는 공지사항만 필터링하여 저장
-      const nextNoticesData = [nextResponse1, nextResponse2]
-        .filter(res => res && res.data?.data) // 데이터가 있는 응답만 필터링
-        .map(res => ({
-          id: res.data.data.id,
-          title: res.data.data.title,
-          date: formatDate(res.data.data.createdAt),
-        }));
+      if (idArray[currentIndex + 2]) {
+        const nextResponse = await axiosCookie.get(`/api/notice/${idArray[currentIndex + 2]}`);
+        nextNoticesData.push({
+          id: nextResponse.data.data.id,
+          title: nextResponse.data.data.title,
+          date: formatDate(nextResponse.data.data.createdAt),
+        });
+      }
 
       setNextNotices(nextNoticesData);
     } catch (error) {
       console.error('❌ 공지사항 데이터를 불러오는 중 오류 발생:', error.response?.data || error.message);
     }
   };
+
 
   // ✅ 날짜 변환 함수 (YYYY.MM.DD 형식으로 변경)
   const formatDate = (isoString) => {
