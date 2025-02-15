@@ -46,7 +46,7 @@ export const VectorImage = styled.img`
 `;
 export const DropdownMenu = styled.div`
   position: absolute;
-  top: 120px;
+  top: 90px;
   
   left: 0;
   width: 100%;
