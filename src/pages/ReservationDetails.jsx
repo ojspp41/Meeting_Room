@@ -1,12 +1,15 @@
+// ReservationDetails.js
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import './css/ReservationDetails.css';
-import '../components/NavigationBar/NavigationBar'
+import { useLocation, useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
-import SuccessModal from '../components/SuccessModal/SuccessModal'
+import SuccessModal from '../components/SuccessModal/SuccessModal';
+import { createReservation } from '../apis/createReservation'; 
+import * as S from '../pages/css/ReservationDetailsStyles';
 
 function ReservationDetails() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     facility,
     name,
@@ -37,58 +40,53 @@ function ReservationDetails() {
     setParticipants(e.target.value);
   };
 
-  const handleReservationComplete = () => {
-    setIsModalOpen(true);
+  const handleReservationComplete = async () => {
+    try {
+      await createReservation(phone, time.split('~')[0], time.split('~')[1], participants, date);
+      
+      setIsModalOpen(true); 
+      setTimeout(() => {
+        navigate('/mainpage'); 
+      }, 2000);
+    } catch (error) {
+      console.error('예약 실패:', error.message);
+      alert('예약에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
-    <div className="container">
+    <S.Container>
       <NavigationBar title="컴퓨터정보공학부" />
-      <div className="reservation-details">
+      <S.ReservationDetails>
         {reservationDetails &&
           Object.entries(reservationDetails).map(([key, value]) => (
-            <p key={key} className="detail-item">
-              <div className="option-container">
-                <strong>{key}</strong>
-              </div>
+            <S.DetailItem key={key}>
+              <S.OptionContainer>{key}</S.OptionContainer>
               {value}
-            </p>
+            </S.DetailItem>
           ))}
 
-        <div className="detail-item">
-          <div className="option-container">
-            <strong>전화번호</strong>
-          </div>
-          <input
-            type="text"
-            value={phone}
-            onChange={handlePhoneChange}
-            className="phone-input"
-          />
-        </div>
+        <S.DetailItem>
+          <S.OptionContainer>전화번호</S.OptionContainer>
+          <S.PhoneInput type="text" value={phone} onChange={handlePhoneChange} />
+        </S.DetailItem>
 
-        <div className="detail-item">
-          <div className="option-container">
-            <strong>참가인원</strong>
-          </div>
-          <select
-            value={participants}
-            onChange={handleParticipantsChange}
-            className="participants-select"
-          >
+        <S.DetailItem>
+          <S.OptionContainer>참가인원</S.OptionContainer>
+          <S.ParticipantsSelect value={participants} onChange={handleParticipantsChange}>
             {[2, 3, 4, 5].map((num) => (
               <option key={num} value={num}>
                 {num}명
               </option>
             ))}
-          </select>
-        </div>
-      </div>
-      <button className="reservation-button" onClick={handleReservationComplete}>
+          </S.ParticipantsSelect>
+        </S.DetailItem>
+      </S.ReservationDetails>
+      <S.ReservationButton onClick={handleReservationComplete}>
         예약 완료하기
         <SuccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      </button>
-    </div>
+      </S.ReservationButton>
+    </S.Container>
   );
 }
 

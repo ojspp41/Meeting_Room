@@ -1,98 +1,130 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { getDay } from 'date-fns';
-import { useNavigate } from 'react-router-dom'; // React Router
+import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
+import { fetchFullyBookedDates } from '../apis/fullyBooked';
+import { fetchReservedTimes } from '../apis/reservation';
+import { fetchAvailableTimes } from '../apis/availableTimes';
 import './css/MainPage.css';
 
 function MainPage() {
-  const navigate = useNavigate(); // 페이지 전환을 위한 hook
-  const holidays = [
-    new Date(2025, 11, 12),
-    new Date(2025, 11, 16),
-    new Date(2025, 11, 25),
-    new Date(2025, 11, 26),
-  ];
-
+  const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [availableTimes, setAvailableTimes] = useState([]);
+  const [reservedTimes, setReservedTimes] = useState({});
+  const [fullyBookedDates, setFullyBookedDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState('');
 
-  const tileClassName = ({ date, view }) => {
-    const day = getDay(date);
-    const isWeekend = day === 0 || day === 6;
-    const isHoliday = holidays.some(
-      (holiday) => holiday.toDateString() === date.toDateString()
-    );
-    const isSelected =
-      selectedDate && selectedDate.toDateString() === date.toDateString();
+  useEffect(() => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
 
-    if (isSelected) {
-      return 'selected';
-    }
+    fetchFullyBookedDates(year, month).then(setFullyBookedDates);
+    
+    fetchReservedTimes(year, month).then((data) => {
+      const reservedSlots = data.reduce((acc, reservation) => {
+        const reservationDate = new Date(reservation.reservationDate);
+        const day = reservationDate.getDate();
+        const startHour = new Date(reservation.reservationStartTime).getHours();
+        const endHour = new Date(reservation.reservationEndTime).getHours();
 
-    if (isWeekend) {
-      return 'weekend';
-    }
+        if (!acc[day]) acc[day] = [];
+        acc[day].push({ start: startHour, end: endHour });
+        console.log(`예약된 시간: ${startHour}:00 ~ ${endHour}:00`);
+        return acc;
+      }, {});
 
-    if (isHoliday) {
-      return 'holiday';
-    }
+      setReservedTimes(reservedSlots);
+    });
+  }, [date]);
 
-    return '';
-  };
-
-  const handleDateChange = (selectedDate) => {
+  const handleDateChange = async (selectedDate) => {
     setDate(selectedDate);
     setSelectedDate(selectedDate);
-
-    const availableSlots = [];
-    for (let hour = 10; hour <= 20; hour += 2) {
-      const timeSlot = `${hour}:00`;
-      availableSlots.push(timeSlot);
-    }
-
-    setAvailableTimes(availableSlots);
     setSelectedTime('');
+  
+    const isAvailable = await fetchAvailableTimes(selectedDate);
+    if (isAvailable) {
+      const allSlots = [];
+      for (let hour = 10; hour < 22; hour += 2) { 
+        const startTime = `${hour}:00`;
+        const endTime = `${hour + 2}:00`;
+        
+        const isReserved = reservedTimes[selectedDate.getDate()]?.some(
+          (res) => {
+            const slotStart = hour;
+            const slotEnd = hour + 2;
+            return (slotStart < res.end && slotEnd > res.start); 
+          }
+        );
+        allSlots.push({ time: `${startTime}~${endTime}`, isReserved });
+      }
+      setAvailableTimes(allSlots);
+    } else {
+      setAvailableTimes([]);
+    }
   };
 
   const handleTimeSelect = (time) => {
-    setSelectedTime(time);
+    if (!reservedTimes[selectedDate?.getDate()]?.some(
+      (res) => {
+        const slotHour = time.split(':')[0];
+        return slotHour >= res.start && slotHour < res.end;
+      }
+    )) {
+      setSelectedTime(time);
+    }
   };
 
   const handleNextStep = () => {
+    const date = new Date(selectedDate);
+    const kstOffset = 9 * 60; 
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + kstOffset); // UTC에서 KST로 변환
+  
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, '0'); // 2자리로 포맷
+  
+    const formattedDate = `${year}-${month}-${day}`; // yyyy-mm-dd 형식으로 변환
+  
+    const [startHour, startMinute] = selectedTime.split(':');
+    const endHour = parseInt(startHour) + 2;
+  
     navigate('/reservation-details', {
       state: {
-        facility: '컴공 회의실 : B208', 
-        name: '이지민', 
-        studentNumber: '202221134', 
-        phone: '010-1234-5678', 
-        date: selectedDate?.toDateString(),
-        time: selectedTime,
-        participants: 4, 
+        facility: '컴공 회의실 : B208',
+        name: '이지민',
+        studentNumber: '202221134',
+        phone: '010-1234-5678',
+        date: formattedDate,
+        time: `${startHour}:00 ~ ${endHour}:00`, 
       },
     });
   };
 
   return (
-    <div className='mainpage-container'>
+    <div className="mainpage-container">
       <NavigationBar title="컴퓨터정보공학부" />
       <Calendar
         onChange={handleDateChange}
         value={date}
-        tileClassName={tileClassName}
+        locale="en-US"
+        tileClassName={({ date }) => {
+          return fullyBookedDates.includes(date.getDate()) ? 'fully-booked' : '';
+        }}
       />
       <div className="time-slots">
         {availableTimes.length > 0 ? (
-          availableTimes.map((time, index) => (
+          availableTimes.map((slot, index) => (
             <div
               key={index}
-              className={`time-slot ${selectedTime === time ? 'selected' : ''}`}
-              onClick={() => handleTimeSelect(time)}
+              className={`time-slot ${selectedTime === slot.time ? 'selected' : ''} 
+              ${slot.isReserved ? 'reserved' : ''}`}
+              onClick={() => !slot.isReserved && handleTimeSelect(slot.time)}
             >
-              {time}
+              {slot.time}
             </div>
           ))
         ) : (

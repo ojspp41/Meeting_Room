@@ -11,37 +11,70 @@
     width: 100%;    
     margin-top: 50px;
   }
-.selected {
-    background-color: #0C2E86 !important;
+
+.react-calendar__tile--active {
+    background: #0C2E86 !important;
     color: white;
-  }
-  
-  .weekend {
-    background-color: #f0f0f0;
-  }
-  
-  .holiday {
-    background-color: #e0e0e0;
-  }
-  
+    border-radius: 50%;
+    aspect-ratio: 0.1/0.1;
+}
+.react-calendar__tile--now {
+    color: black;
+    background: white !important;
+    border: 1px solid #0C2E86 !important;
+    border-radius: 50%;
+    aspect-ratio: 0.5/0.5;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  color: #0C2E86; 
+  font-weight: bold; 
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none; 
+}
+
+.react-calendar__tile.fully-booked {
+  background-color: #f44336 !important; /* 빨간색으로 마감된 날짜 표시 */
+  color: white; /* 글자 색상 변경 */
+}
+
   .time-slots {
     color: #646870;
     display: flex;
-    flex-wrap: wrap; 
-    gap: 3%;  
+    flex-wrap: wrap;
+    gap: 3%;
   }
   
   .time-slot {
     width: 120px;
     height: 25px;
     padding: 3%;
-    margin: 3%; 
+    margin: 3%;
     margin-top: 20px;
-    text-align: center; 
+    text-align: center;
     border-radius: 5px;
     background: var(--white, #FFF);
     border: 1px solid rgba(0, 0, 0, 0.178);
     box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer; 
+  }
+  
+  .time-slot.selected {
+    background-color: #0C2E861A;
+    color: #0C2E86;               
+    border: 2px solid #0C2E86;  
+    font-weight: bold;           
+  }
+  .time-slot.reserved {
+    background-color: gray; 
+    color: white;
+  }
+  
+  
+  .time-slot:hover {
+    background-color: #e0e0e0; 
   }
   
 .next-step-button{
@@ -66,4 +99,10 @@
     box-shadow: 0px 0px 1px 0px #0C2E86;
     color: var(--catholic-color, #0C2E86);
   }
+}
+
+.fully-booked {
+  background-color: gray !important;
+  color: white !important;
+  pointer-events: none;  
 }
