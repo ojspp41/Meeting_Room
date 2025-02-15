@@ -3,28 +3,34 @@ import { useNavigate } from 'react-router-dom';
 import './css/admin.css';
 import AdminNav from '../components/NavigationBar/AdminNav';
 import axiosCookie from '../../axiosCookie';
-
+import { useMutation } from '@tanstack/react-query';
 
 export const AdminFaqWrite = () => {
   const navigate = useNavigate();
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
 
+  // ✅ FAQ 등록 API 요청 (useMutation 사용)
+  const mutation = useMutation({
+    mutationFn: async (newFaq) => {
+      const response = await axiosCookie.post('/api/admin/faq/create', newFaq);
+      return response.data;
+    },
+    onSuccess: () => {
+      alert('FAQ가 등록되었습니다.');
+      navigate('/admin/faq'); // FAQ 목록 페이지로 이동
+    },
+    onError: (error) => {
+      console.error('FAQ 등록 실패:', error.response?.data || error.message);
+      alert('FAQ 등록에 실패했습니다.');
+    },
+  });
 
-const handleSubmit = async () => {
-  try {
-    const response = await axiosCookie.post('/api/admin/faq/create', {
-      question,
-      answer,
-    });
+  // ✅ 제출 핸들러
+  const handleSubmit = () => {
+    mutation.mutate({ question, answer });
+  };
 
-    alert('FAQ가 등록되었습니다.');
-    navigate('/admin/faq'); // FAQ 목록 페이지로 이동
-  } catch (error) {
-    console.error('FAQ 등록 실패:', error.response?.data || error.message);
-    alert('FAQ 등록에 실패했습니다.');
-  }
-};
 
 
   return (

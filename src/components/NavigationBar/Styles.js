@@ -1,5 +1,20 @@
 // NavigationBar/Styles.js
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+// ✅ 드롭다운이 아래로 차르륵 내려오는 애니메이션 (슬라이드 다운)
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+
+
 
 export const NavBarContainer = styled.div`
   display: flex;
@@ -26,7 +41,7 @@ export const LogoImage = styled.img`
 
 export const VectorImage = styled.img`
   width: 24px; 
-  height: 18px;
+  height: 24px;
   padding: 2%;  
 `;
 export const DropdownMenu = styled.div`
@@ -38,6 +53,7 @@ export const DropdownMenu = styled.div`
   background: white;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  animation: ${slideDown} 0.7s ease-out;
 `;
 
 export const DropdownItem = styled.div`

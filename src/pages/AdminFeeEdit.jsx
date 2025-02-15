@@ -1,55 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import './css/admin.css';
 import AdminNav from '../components/NavigationBar/AdminNav';
 import axiosCookie from '../../axiosCookie';
+
 export const AdminFeeEdit = () => {
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState([
-  ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, setEditId] = useState(null);
   const [name, setName] = useState('');
   const [studentId, setStudentId] = useState('');
   const itemsPerPage = 7;
-  
-  
+  const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    fetchFeePayers();
-  }, []);
+  // 🔹 1️⃣ 학생회비 납부자 목록 불러오기 (React Query 사용)
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['studentFeePayers'],
+    queryFn: async () => {
+      const response = await axiosCookie.get('/api/studentFeePayer/getAll', { withCredentials: true });
+      return response.data.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5분 동안 데이터를 fresh 상태로 유지
+  });
 
-  const fetchFeePayers = async () => {
-    try {
-      const response = await axiosCookie.get('/api/studentFeePayer/getAll', {
-        withCredentials: true, // 쿠키 자동 포함
-      });
-  
-      console.log(response);
-      if (response.data) {
-        setData(response.data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error.response?.data || error.message);
-    }
+  // 🔹 2️⃣ 삭제 Mutation
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
+      return await axiosCookie.delete(`/api/admin/studentFeePayer/delete/${id}`, { withCredentials: true });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['studentFeePayers']); // 데이터 새로고침
+    },
+  });
+
+  // 🔹 3️⃣ 수정 Mutation
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, name, studentId }) => {
+      return await axiosCookie.put(`/api/admin/studentFeePayer/update/${id}`, { name, studentId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['studentFeePayers']); // 데이터 새로고침
+      setIsModalOpen(false);
+      alert('수정 완료되었습니다');
+    },
+  });
+
+  // 🔹 삭제 핸들러
+  const handleDelete = (id) => {
+    deleteMutation.mutate(id);
   };
-  
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await axiosCookie.delete(`/api/admin/studentFeePayer/delete/${id}`, {
-        withCredentials: true, // 쿠키 자동 포함
-      });
-  
-      if (response.status === 200) {
-        setData(data.filter(item => item.id !== id));
-      }
-    } catch (error) {
-      console.error('Error deleting:', error.response?.data || error.message);
-    }
-  };
-  
-
+  // 🔹 수정 모달 열기
   const handleEdit = (item) => {
     setEditId(item.id);
     setName(item.name);
@@ -57,32 +59,17 @@ export const AdminFeeEdit = () => {
     setIsModalOpen(true);
   };
 
-
-  const handleUpdate = async () => {
-    try {
-      await axiosCookie.put(`/api/admin/studentFeePayer/update/${editId}`, {
-        name,
-        studentId,
-      });
-
-      setData(data.map(item => (item.id === editId ? { ...item, name, studentId } : item)));
-      setIsModalOpen(false);
-      alert("수정완료되었습니다");
-    } catch (error) {
-      console.error('Error updating:', error.response?.data || error.message);
-    }
+  // 🔹 수정 핸들러
+  const handleUpdate = () => {
+    updateMutation.mutate({ id: editId, name, studentId });
   };
 
+  if (isLoading) return <p>로딩 중...</p>;
+  if (isError) return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
 
-    const filteredData = data.filter((item) =>
-      item.name.includes(searchTerm)
-    );
-
+  const filteredData = data.filter((item) => item.name.includes(searchTerm));
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const displayedData = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const displayedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="admin-container">
@@ -111,20 +98,15 @@ export const AdminFeeEdit = () => {
         ))}
       </div>
       <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
+        <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
           이전
         </button>
         <span>{currentPage} / {totalPages}</span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
+        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>
           다음
         </button>
       </div>
+
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">

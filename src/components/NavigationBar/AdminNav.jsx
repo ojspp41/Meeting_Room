@@ -27,7 +27,12 @@ function AdminNav({ title }) {
     <NavBarContainer>
       <LogoImage src="/assets/logo.svg" alt='로고'/>
       <span>{title}</span>
-      <VectorImage src="/assets/vector.svg" alt='로고' onClick={toggleDropdown} />
+      {/* ✅ 토글 상태에 따라 아이콘 변경 */}
+      <VectorImage 
+        src={isOpen ? "/assets/x.png" : "/assets/vector.svg"} 
+        alt="메뉴 토글"
+        onClick={toggleDropdown} 
+      />
       {isOpen && (
         
         <DropdownMenu>
