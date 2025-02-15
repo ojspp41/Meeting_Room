@@ -28,7 +28,11 @@ function NavigationBar({ title }) {
     <NavBarContainer>
       <LogoImage src="/assets/logo.svg" alt='로고'/>
       <span>{title}</span>
-      <VectorImage src="/assets/vector.svg" alt='로고' onClick={toggleDropdown} />
+      <VectorImage 
+              src={isOpen ? "/assets/x.png" : "/assets/vector.svg"} 
+              alt="메뉴 토글"
+              onClick={toggleDropdown} 
+            />
       {isOpen && (
         
         <DropdownMenu>

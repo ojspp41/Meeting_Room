@@ -16,17 +16,24 @@ export const AdminFee = () => {
     mutationFn: async ({ name, studentId }) => {
       return await axiosCookie.post('/api/admin/studentFeePayer/create', { name, studentId });
     },
-    onSuccess: () => {
+    onMutate: async (newStudent) => {
+      await queryClient.cancelQueries(['studentFeePayers']);
+      const previousData = queryClient.getQueryData(['studentFeePayers']);
+      queryClient.setQueryData(['studentFeePayers'], (oldData) => [
+        ...(oldData || []),
+        { id: Date.now(), ...newStudent }, // UI에서 먼저 추가된 것처럼 보이게 함
+      ]);
       alert('학생회비자가 추가되었습니다.');
       setIsModalOpen(false);
       setName('');
       setStudentId('');
-      // 🔹 데이터를 새로고침 (React Query 캐시 무효화)
-    queryClient.invalidateQueries(['studentFeePayers']);
+      return { previousData };
     },
-    onError: (error) => {
-      console.error('Error adding student fee payer:', error);
-      alert('추가 실패. 다시 시도하세요.');
+    onError: (_, __, context) => {
+      queryClient.setQueryData(['studentFeePayers'], context.previousData); // 실패 시 복구
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['studentFeePayers']); // 최신 데이터 요청
     },
   });
 
