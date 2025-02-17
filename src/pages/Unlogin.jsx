@@ -3,7 +3,7 @@ import Lottie from 'react-lottie-player';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './css/Unlogin.css';
-
+import { useAnimationStore } from '../../store';
 // Lottie 파일 경로
 import startAnimation from '../../public/assets/lottie/start.json';
 
@@ -11,16 +11,30 @@ function Unlogin() {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showAnimation, setShowAnimation] = useState(true); // 애니메이션 상태
+  const { showAnimation, setShowAnimation } = useAnimationStore(); // zustand 상태 사용
   const navigate = useNavigate();
-
-  // 5.5초 후 애니메이션 종료
+  console.log(showAnimation);
+  // 컴포넌트 마운트 시 애니메이션 상태 로드
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowAnimation(false);
-    }, 3500);
-    return () => clearTimeout(timer);
+    if (showAnimation) {
+      const timer = setTimeout(() => {
+        setShowAnimation(false); // 애니메이션 종료 후 상태 변경
+      }, 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [showAnimation, setShowAnimation]);
+  useEffect(() => {
+    const lastShown = localStorage.getItem('lastAnimationTime');
+    const currentTime = Date.now();
+  
+    // 1시간(3600000ms) 지나면 다시 보여줌
+    if (!lastShown || currentTime - lastShown > 3600000) {
+      setShowAnimation(true);
+      localStorage.setItem('lastAnimationTime', currentTime);
+    }
   }, []);
+  
+
 
   const toggleTooltip = () => {
     setShowTooltip(!showTooltip);

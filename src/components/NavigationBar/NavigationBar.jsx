@@ -13,12 +13,14 @@ function NavigationBar({ title }) {
   const closeDropdown = () => {
     setIsOpen(false);
   };
-
+  const handleLogoClick = () => {
+    navigate('/mainpage');
+  }
 
 
   const menuItems = [
     { label: "예약 일정 확인/취소", path: "/reservation" },
-    { label: "교내 타회의실 예약", path: "/" },
+    { label: "교내 타회의실 예약", path: "/reservation" },
     { label: "자주 묻는 질문", path: "/faq" },
     { label: "공지사항", path: "/notice" },
     { label: "회의실/과방 위치", path: "/map" }
@@ -26,7 +28,9 @@ function NavigationBar({ title }) {
 
   return (
     <NavBarContainer>
-      <LogoImage src="/assets/logo.svg" alt='로고'/>
+      <LogoImage src="/assets/logo.svg" alt='로고'
+      onClick={handleLogoClick} // ✅ 로고 클릭 시 이동
+      />
       <span>{title}</span>
       <VectorImage 
               src={isOpen ? "/assets/x.png" : "/assets/vector.svg"} 

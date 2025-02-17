@@ -86,9 +86,8 @@ export const Faq = () => {
         ))}
       </motion.div>
 
-      <div className="mb"></div>
       <motion.button 
-        className="faq-button fixed-button" 
+        className="faq-button" 
         onClick={openKakaoChat}
         whileHover={{ scale: 1.05 }} // 버튼에 마우스 올리면 커짐
         whileTap={{ scale: 0.95 }} // 버튼 클릭 시 작아짐

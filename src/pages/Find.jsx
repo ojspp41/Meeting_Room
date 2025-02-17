@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom'; // ✅ useNavigate 추가
 import './css/Find.css';
 import ErrorModal from '../components/ErrorModal';
-function Find() {
-const [error, setError] = useState('');
-
+  function Find() {
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // ✅ useNavigate 사용
   const handleError = (message) => {
     setError(message);
   };
+  const handleLogoClick = () => {
+    navigate('/'); // ✅ 로고 클릭 시 '/unlogin'으로 이동
+  };
   return (
     <div className="fee-certification-container">
-      <img src="/assets/logo.svg" alt="학생회비 로고" className="fee-logo" />
+      <img src="/assets/logo.svg" alt="학생회비 로고"
+       onClick={handleLogoClick} // ✅ 클릭 이벤트 추가
+       className="fee-logo" />
       <div className="fee-text">
         <h2>비밀번호 찾기 </h2>
         
