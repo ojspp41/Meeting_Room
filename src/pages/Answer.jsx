@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './css/answer.css';
+import { motion } from 'framer-motion'; // ✅ framer-motion 추가
+import './css/answer.css'; // FAQ와 동일한 CSS 적용
 import NavigationBar from '../components/NavigationBar/NavigationBar';
-import axiosCookie from '../../axiosCookie'; // axiosCookie 설정 파일을 불러옴
+import axiosCookie from '../../axiosCookie';
 
 export const Answer = () => {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4; // 한 페이지당 4개 표시
+
   useEffect(() => {
     fetchNotices();
   }, []);
 
-  // ✅ 공지사항 목록 불러오기 (axiosCookie 사용)
   const fetchNotices = async () => {
     try {
-      const response = await axiosCookie.get('/api/notice'); // 공지사항 목록 조회
-       
+      const response = await axiosCookie.get('/api/notice');
+
       if (response.data?.data?.noticeList) {
-        // 날짜 변환: "2025-02-06T23:00:05.854409" → "2025.02.06"
         const formattedNotices = response.data.data.noticeList.map((notice) => ({
           ...notice,
           date: formatDate(notice.createdAt),
         }));
 
         setNotices(formattedNotices);
-
-        const idArray = formattedNotices.map(notice => notice.id);
-        console.log(idArray);
-        localStorage.setItem('noticeIds', JSON.stringify(idArray));
+        localStorage.setItem('noticeIds', JSON.stringify(formattedNotices.map(n => n.id)));
       } else {
         console.error('❌ 공지사항 데이터가 올바르지 않습니다:', response.data);
       }
@@ -36,24 +34,55 @@ export const Answer = () => {
       console.error('❌ 공지사항 데이터를 불러오는 중 오류 발생:', error.response?.data || error.message);
     }
   };
-  // ✅ 날짜 변환 함수
+
   const formatDate = (isoString) => {
     const date = new Date(isoString);
-    return date.toISOString().split('T')[0].replace(/-/g, '.'); // YYYY.MM.DD 형식 변환
+    return date.toISOString().split('T')[0].replace(/-/g, '.');
   };
 
+  // 페이지네이션을 위한 데이터 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentNotices = notices.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(notices.length / itemsPerPage);
+
   return (
-    <div className="answer-container">
+    <div className="answer-container"> 
       <NavigationBar title="공지사항" />
-      <div className="answer-list">
-        {notices.map((notice) => (
-          <div key={notice.id} className="answer-item" onClick={() => navigate(`/notice/${notice.id}`)}>
+      <motion.div 
+        className="answer-list"
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }}  
+        transition={{ duration: 1 }}
+      >
+        {currentNotices.map((notice, index) => (
+          <motion.div 
+            key={notice.id} 
+            className="answer-item" // FAQ 스타일 적용
+            onClick={() => navigate(`/notice/${notice.id}`)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
+          >
             <div className="answer-header">
-              <span className="answer-titles">{notice.title}</span>
+              <span className="answer-question">{notice.title}</span>
               <span className="answer-arrow">{">"}</span>
             </div>
-            <p className="answer-date">{notice.date}</p>
-          </div>
+            <p className="answer-content">{notice.date}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* 페이지네이션 버튼 추가 */}
+      <div className="pagination-container">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button 
+            key={index + 1} 
+            className={`pagination-button ${currentPage === index + 1 ? "active" : ""}`} 
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </button>
         ))}
       </div>
     </div>

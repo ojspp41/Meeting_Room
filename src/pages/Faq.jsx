@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion'; // Framer Motion 추가
 import './css/faq.css';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
 import instance from '../axiosConfig';
@@ -37,39 +38,63 @@ export const Faq = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFaqs = faqs.slice(indexOfFirstItem, indexOfLastItem);
 
+  // 전체 페이지 수 계산
+  const totalPages = Math.ceil(faqs.length / itemsPerPage);
+
   return (
     <div className="faq-container">
       <NavigationBar title="FAQ"/>
-      <div className="faq-list">
+      
+      {/* FAQ 리스트 */}
+      <motion.div 
+        className="faq-list"
+        initial={{ opacity: 0, y: 10 }} // 처음에 약간 아래에서 시작
+        animate={{ opacity: 1, y: 0 }} // 나타날 때 자연스럽게 올라오면서 페이드 인
+        transition={{ duration: 0.5 }}
+      >
         {currentFaqs.map((faq, index) => (
-          <div key={faq.id} className="faq-item">
+          <motion.div 
+            key={faq.id} 
+            className="faq-item"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }} // 각 항목이 순차적으로 나타남
+          >
             <h3 className="faq-question">{indexOfFirstItem + index + 1}. {faq.question}</h3>
             <p className="faq-content">{faq.answer}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* 페이지네이션 버튼 */}
-      <div className="pagination-container">
-        <button 
-          className="pagination-button" 
-          onClick={() => setCurrentPage(currentPage - 1)} 
-          disabled={currentPage === 1}
-        >
-          이전
-        </button>
-        <span className="page-info">{currentPage} / {Math.ceil(faqs.length / itemsPerPage)}</span>
-        <button 
-          className="pagination-button" 
-          onClick={() => setCurrentPage(currentPage + 1)} 
-          disabled={indexOfLastItem >= faqs.length}
-        >
-          다음
-        </button>
-      </div>
+      <motion.div 
+        className="pagination-container"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {Array.from({ length: totalPages }, (_, index) => (
+          <motion.button 
+            key={index + 1} 
+            className={`pagination-button ${currentPage === index + 1 ? "active" : ""}`} 
+            onClick={() => setCurrentPage(index + 1)}
+            whileHover={{ scale: 1.1 }} // 버튼에 마우스 올리면 약간 커짐
+            whileTap={{ scale: 0.9 }} // 버튼 클릭 시 살짝 작아짐
+          >
+            {index + 1}
+          </motion.button>
+        ))}
+      </motion.div>
 
       <div className="mb"></div>
-      <button className="faq-button fixed-button" onClick={openKakaoChat}>직접 문의하기</button>
+      <motion.button 
+        className="faq-button fixed-button" 
+        onClick={openKakaoChat}
+        whileHover={{ scale: 1.05 }} // 버튼에 마우스 올리면 커짐
+        whileTap={{ scale: 0.95 }} // 버튼 클릭 시 작아짐
+      >
+        직접 문의하기
+      </motion.button>
     </div>
   );
 };

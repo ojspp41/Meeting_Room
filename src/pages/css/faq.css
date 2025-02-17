@@ -72,21 +72,25 @@
 }
 
 .pagination-button {
-  background-color: black;
-  color: white;
-  padding: 8px 16px;
+  background-color: transparent; /* 배경 없이 */
+  color: #B4B4B4; /* 기본 회색 */
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.pagination-button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-.page-info {
+  padding: 6px 12px;
   font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px; /* 밑줄 위치 조정 */
+}
+
+.pagination-button:hover {
+  color: black;
   font-weight: bold;
+}
+
+.pagination-button.active {
+  color: black;
+  font-weight: bold;
+  text-decoration: underline;
+  
 }
