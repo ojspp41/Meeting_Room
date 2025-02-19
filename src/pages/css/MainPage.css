@@ -1,108 +1,188 @@
-
-.mainpage-container{
+.mainpage-container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-  align-items: center; 
+  align-items: center;
   padding: 0px 20px;
 }
 .react-calendar {
-    width: 100%;    
-    margin-top: 50px;
-  }
-
-.react-calendar__tile--active {
-    background: #0C2E86 !important;
-    color: white;
-    border-radius: 50%;
-    aspect-ratio: 0.1/0.1;
+  width: 100%;
+  margin-top: 30px;
+  border: none;
+  
+  padding-bottom: 30px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* 은은한 그라데이션 */
+    border-radius: 16px; /* 둥근 모서리 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
 }
-.react-calendar__tile--now {
-    color: black;
-    background: white !important;
-    border: 1px solid #0C2E86 !important;
-    border-radius: 50%;
-    aspect-ratio: 0.5/0.5;
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1em;
+  border-radius: 12px; /* 둥근 모서리 */
+  background: linear-gradient(135deg, #e3e3f3, #3856a1); /* 그라데이션 배경 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  font-weight: bold;
 }
 
+/* 네비게이션 버튼 */
+
+
+/* 월, 연도 텍스트 */
+.react-calendar__navigation__label {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-transform: uppercase;
+  pointer-events: none;
+
+}
+
+.react-calendar__month-view__weekdays{
+  margin: 0px   10px;
+}
+/* 요일 헤더 개별 스타일 */
 .react-calendar__month-view__weekdays__weekday {
-  color: #0C2E86; 
-  font-weight: bold; 
+  padding-top: 10px;
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
   text-decoration: none; 
+  font-size: 16px; 
+  font-weight: bold;
+  color: #0C2E86;
 }
 
-.react-calendar__tile.fully-booked {
-  background-color: #f44336 !important; /* 빨간색으로 마감된 날짜 표시 */
-  color: white; /* 글자 색상 변경 */
+
+
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none !important;
+}
+.react-calendar__month-view__days{
+  margin: 0px 10px;
+}
+/* 날짜 스타일 */
+.react-calendar__tile {
+  background: white;
+  border-radius: 50%;
+  aspect-ratio: 0.5/0.5;
+  padding: 15px 0;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  font-size: 1.1em;
+  font-weight: 500;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 }
 
-  .time-slots {
-    color: #646870;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3%;
-  }
+.react-calendar__month-view__weekdays__weekday--weekend abbr{
+  color: rgba(247, 39, 39, 0.699) !important; /* !important를 올바르게 적용 */
+}
+
+.react-calendar__tile--active {
+  background: #0C2E86 !important;
+  color: white;
+  border-radius: 50%;
+  aspect-ratio: 0.1/0.1;
+}
+
+.react-calendar__tile--now {
+  color: black;
+  background-color: white !important;
+  border: 1px solid #2d488d !important;
+  border-radius: 50%;
+  aspect-ratio: 0.5/0.5;
+}
+
+
+.fully-booked {
+  color: gray !important;
+  background-color: #f0f0f0 !important;
+  pointer-events: none; /* 클릭 비활성화 */
+  opacity: 0.5;
+}
+
+
+.time-slots {
+  color: #646870;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3%; /* 좌우 균등한 간격 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  width: 100%; /* 전체 너비 사용 */
+}
+
+
+.time-slot {
+  width: 120px;
+  height: 25px;
+  padding: 3%;
+  margin: 3%;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
   
-  .time-slot {
-    width: 120px;
-    height: 25px;
-    padding: 3%;
-    margin: 3%;
-    margin-top: 20px;
-    text-align: center;
-    border-radius: 5px;
-    background: var(--white, #FFF);
-    border: 1px solid rgba(0, 0, 0, 0.178);
-    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
-    cursor: pointer; 
-  }
+  align-items: center; /* 글자 세로 중앙 정렬 */
+  justify-content: center; /* 글자 가로 중앙 정렬 */
+  border-radius: 15px;
+  background: var(--white, #FFF);
+  border: 1px solid rgba(0, 0, 0, 0.178);
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15); /* 입체감 추가 */
+  transition: all 0.3s ease-in-out;
+}
+
+.time-slot.selected {
+  background-color: #0C2E861A;
+  color: #0C2E86;
+
+}
+
+.time-slot.reserved {
+  background-color: gray;
+  color: white;
   
-  .time-slot.selected {
-    background-color: #0C2E861A;
-    color: #0C2E86;               
-    border: 2px solid #0C2E86;  
-    font-weight: bold;           
-  }
-  .time-slot.reserved {
-    background-color: gray; 
-    color: white;
-  }
-  
-  
-  .time-slot:hover {
-    background-color: #e0e0e0; 
-  }
-  
-.next-step-button{
+}
+
+.next-step-button {
+  margin-top: 10%;
   color: #646870;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 15px;
   background: var(--white, #FFF);
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15); /* 기본 입체감 */
   border: none;
   width: 175px;
   height: 50px;
   padding: 5%;
   color: var(--black2, #121212);
-  text-align: center;
   font-size: 16px;
-  font-weight: 500;
-  line-height: 100%;
-&:hover {
-    background: rgba(12, 46, 134, 0.10);
-    box-shadow: 0px 0px 1px 0px #0C2E86;
-    color: var(--catholic-color, #0C2E86);
-  }
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 40px;
+}
+
+.next-step-button.active {
+  background-color: #0C2E861A; 
+  color: #0C2E86;
+  cursor: pointer;
 }
 
 .fully-booked {
-  background-color: gray !important;
-  color: white !important;
-  pointer-events: none;  
+  color: gray !important;
+  pointer-events: none;
+}
+
+
+.no-time{
+  margin-top: 30px;
+  font-size: 18px;
+  color: #646870;
+  opacity: 0.7;
 }
