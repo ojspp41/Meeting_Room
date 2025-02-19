@@ -45,6 +45,17 @@ function Unlogin() {
         withCredentials: true, // 자동으로 쿠키 포함
       });
 
+      const userInfoResponse = await axios.get('https://csiereserve.store/api/main123', {
+        withCredentials: true,
+      });
+  
+      console.log('사용자 정보:', userInfoResponse.data);
+  
+      const { userRole, studentId, name } = userInfoResponse.data;
+      
+      localStorage.setItem('userRole', userRole);
+      localStorage.setItem('studentId', studentId);
+      localStorage.setItem('name', name);
       alert(`로그인 성공: ${response.data.message}`);
       navigate('/mainpage');
     } catch (error) {

@@ -15,7 +15,27 @@ function MainPage() {
   const [reservedTimes, setReservedTimes] = useState({});
   const [fullyBookedDates, setFullyBookedDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedTime, setSelectedTime] = useState([]);
+  const [holidays, setHolidays] = useState(["12-25"]);
+
+  const getToday = new Date();
+  getToday.setHours(0, 0, 0, 0);
+
+  const isDatePast = (dateToCheck) => {
+    const checkDate = new Date(dateToCheck);
+    checkDate.setHours(0, 0, 0, 0);
+    return checkDate < getToday;
+  };
+
+  const isWeekend = (date) => {
+    return date.getDay() === 0 || date.getDay() === 6;
+  };
+
+  const isDate30DaysLater = (date) => {
+    const currentDate = new Date();
+    const thirtyDaysLater = new Date(currentDate.setDate(currentDate.getDate() + 30));
+    return date > thirtyDaysLater;
+  };
 
   useEffect(() => {
     const year = date.getFullYear();
@@ -32,7 +52,6 @@ function MainPage() {
 
         if (!acc[day]) acc[day] = [];
         acc[day].push({ start: startHour, end: endHour });
-        console.log(`예약된 시간: ${startHour}:00 ~ ${endHour}:00`);
         return acc;
       }, {});
 
@@ -43,15 +62,15 @@ function MainPage() {
   const handleDateChange = async (selectedDate) => {
     setDate(selectedDate);
     setSelectedDate(selectedDate);
-    setSelectedTime('');
-  
+    setSelectedTime([]);
+
     const isAvailable = await fetchAvailableTimes(selectedDate);
     if (isAvailable) {
       const allSlots = [];
-      for (let hour = 10; hour < 22; hour += 2) { 
+      for (let hour = 10; hour < 22; hour += 2) {
         const startTime = `${hour}:00`;
         const endTime = `${hour + 2}:00`;
-        
+
         const isReserved = reservedTimes[selectedDate.getDate()]?.some(
           (res) => {
             const slotStart = hour;
@@ -80,28 +99,46 @@ function MainPage() {
 
   const handleNextStep = () => {
     const date = new Date(selectedDate);
-    const kstOffset = 9 * 60; 
-    date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + kstOffset); // UTC에서 KST로 변환
-  
+    const kstOffset = 9 * 60;
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + kstOffset);
+
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-    const day = String(date.getDate()).padStart(2, '0'); // 2자리로 포맷
-  
-    const formattedDate = `${year}-${month}-${day}`; // yyyy-mm-dd 형식으로 변환
-  
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
     const [startHour, startMinute] = selectedTime.split(':');
     const endHour = parseInt(startHour) + 2;
-  
+
+    const name = localStorage.getItem('name');
+    const studentId = localStorage.getItem('studentId');
+
     navigate('/reservation-details', {
       state: {
         facility: '컴공 회의실 : B208',
-        name: '이지민',
-        studentNumber: '202221134',
-        phone: '010-1234-5678',
+        name: name, 
+        studentNumber: studentId, 
+        phone: '-없이 작성',
         date: formattedDate,
-        time: `${startHour}:00 ~ ${endHour}:00`, 
+        time: `${startHour}:00 ~ ${endHour}:00`,
       },
     });
+  };
+
+  const tileClassName = ({ date }) => {
+    const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;
+
+    if (
+      isDatePast(date) || 
+      isWeekend(date) || 
+      isDate30DaysLater(date) || 
+      fullyBookedDates.includes(date.getDate()) || 
+      holidays.includes(formattedDate)
+    ) {
+      return 'fully-booked';
+    }
+
+    return '';
   };
 
   return (
@@ -111,9 +148,7 @@ function MainPage() {
         onChange={handleDateChange}
         value={date}
         locale="en-US"
-        tileClassName={({ date }) => {
-          return fullyBookedDates.includes(date.getDate()) ? 'fully-booked' : '';
-        }}
+        tileClassName={tileClassName}
       />
       <div className="time-slots">
         {availableTimes.length > 0 ? (
@@ -131,11 +166,13 @@ function MainPage() {
           <div>이용 가능한 시간이 없습니다.</div>
         )}
       </div>
-      {selectedTime && (
-        <button className="next-step-button" onClick={handleNextStep}>
-          다음 단계
-        </button>
-      )}
+      <button 
+        className={`next-step-button ${selectedTime.length > 0 ? 'active' : ''}`} 
+        onClick={handleNextStep} 
+        disabled={selectedTime.length === 0}
+      >
+        다음 단계
+      </button>
     </div>
   );
 }
