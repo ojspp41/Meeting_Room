@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-
+import { persist } from 'zustand/middleware';
 export const useFeeStore = create((set) => ({
   name: '',
   studentId: '',
@@ -28,3 +28,16 @@ export const useNoticeStore = create((set) => ({
   setTitle: (title) => set({ title }),
   setContent: (content) => set({ content }),
 }));
+//lottie showAnimation 모달관리
+export const useAnimationStore = create(
+  persist(
+    (set) => ({
+      showAnimation: true, // 기본값
+      setShowAnimation: (value) => set({ showAnimation: value }),
+    }),
+    {
+      name: 'animation-storage', // localStorage에 저장될 키 이름
+      getStorage: () => localStorage, // localStorage 사용
+    }
+  )
+);

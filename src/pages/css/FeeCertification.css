@@ -96,3 +96,6 @@
 .next-button.active:hover {
     background-color: #444;
 }
+.name_text{
+    z-index: 10;
+}
