@@ -18,15 +18,7 @@ export const createReservation = async (phone, reservationStartTime, reservation
 
     const formattedApplicationDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
 
-    console.log('📢 예약 생성 요청 데이터:', {
-      phoneNumber: phone,
-      reservationStartTime,
-      reservationEndTime,
-      participantCount: participants,
-      reservationDate: formattedReservationDate, 
-      applicationDate: formattedApplicationDate, 
-    });
-
+    
     const response = await axiosCookie.post('https://csiereserve.store/api/reservation/create', {
       phoneNumber: phone,
       reservationStartTime,

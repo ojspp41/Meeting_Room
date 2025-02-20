@@ -8,6 +8,7 @@ import { fetchFullyBookedDates } from '../apis/fullyBooked';
 import { fetchReservedTimes } from '../apis/reservation';
 import { fetchAvailableTimes } from '../apis/availableTimes';
 import './css/MainPage.css';
+import axios from 'axios';
 
 function MainPage() {
   const navigate = useNavigate();
@@ -15,10 +16,10 @@ function MainPage() {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [reservedTimes, setReservedTimes] = useState({});
   const [fullyBookedDates, setFullyBookedDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState([]);
   const [holidays, setHolidays] = useState(["12-25"]);
-
+  
   const getToday = new Date();
   getToday.setHours(0, 0, 0, 0);
 
@@ -58,6 +59,9 @@ function MainPage() {
     });
   }, [date]);
 
+  
+  
+
   const handleDateChange = async (selectedDate) => {
     // 이미 선택된 날짜를 다시 클릭하면 선택 해제
     if (selectedDate.getTime() === date.getTime()) {
@@ -94,8 +98,53 @@ function MainPage() {
       setAvailableTimes([]);
     }
   };
+  useEffect(() => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    
+    fetchFullyBookedDates(year, month).then(setFullyBookedDates);
+    
+    fetchReservedTimes(year, month).then((data) => {
+        const reservedSlots = data.reduce((acc, reservation) => {
+            const reservationDate = new Date(reservation.reservationDate);
+            const day = reservationDate.getDate();
+            const startHour = new Date(reservation.reservationStartTime).getHours();
+            const endHour = new Date(reservation.reservationEndTime).getHours();
+
+            if (!acc[day]) acc[day] = [];
+            acc[day].push({ start: startHour, end: endHour });
+            return acc;
+        }, {});
+
+        setReservedTimes(reservedSlots);
+    });
+
+    // 선택한 날짜의 예약 가능 시간 자동 업데이트
+    fetchAvailableTimes(date).then((isAvailable) => {
+        if (isAvailable) {
+            const allSlots = [];
+            for (let hour = 10; hour < 22; hour += 2) {
+                const startTime = `${hour}:00`;
+                const endTime = `${hour + 2}:00`;
+
+                const isReserved = reservedTimes[date.getDate()]?.some(
+                    (res) => hour < res.end && (hour + 2) > res.start
+                );
+                allSlots.push({ time: `${startTime}~${endTime}`, isReserved });
+            }
+            setAvailableTimes(allSlots);
+        } else {
+            setAvailableTimes([]);
+        }
+    });
+}, [date]);
 
   const handleTimeSelect = (time) => {
+    // 이미 선택된 시간을 다시 클릭하면 선택 해제
+    if (selectedTime === time) {
+      setSelectedTime([]);
+      return;
+  }
     if (!reservedTimes[selectedDate?.getDate()]?.some(
       (res) => {
         const slotHour = time.split(':')[0];
@@ -133,6 +182,18 @@ function MainPage() {
       },
     });
   };
+
+  const handleLogout = async () => {
+    try {
+      await axios.get('https://csiereserve.store/api/logout', { withCredentials: true });
+      localStorage.clear();
+      navigate('/');
+    } catch (error) {
+      alert('로그아웃 실패');
+    }
+  };
+
+
 
   const tileClassName = ({ date }) => {
     const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;
@@ -204,6 +265,7 @@ function MainPage() {
           다음 단계
         </motion.button>
       )}
+      <button className="logout-button" onClick={handleLogout}>로그아웃</button>
     </motion.div>
   );
 }

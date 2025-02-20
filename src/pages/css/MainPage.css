@@ -12,21 +12,20 @@
   border: none;
   
   padding-bottom: 30px;
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* 은은한 그라데이션 */
+  background: linear-gradient(135deg, #f8f9fab1, #e9ecefd3); /* 은은한 그라데이션 */
     border-radius: 16px; /* 둥근 모서리 */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
 }
 .react-calendar__navigation {
   display: flex;
   height: 44px;
   margin-bottom: 1em;
   border-radius: 12px; /* 둥근 모서리 */
-  background: linear-gradient(135deg, #e3e3f3, #3856a1); /* 그라데이션 배경 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  background: linear-gradient(135deg, #3856a1, #3856a1); /* 그라데이션 배경 */
+  
   align-items: center;
-  justify-content: space-between;
+  justify-content: spae-between;
   padding: 5px 10px;
-  font-weight: bold;
+  font-weight: bold;c
 }
 
 /* 네비게이션 버튼 */
@@ -41,6 +40,11 @@
 
 }
 
+.react-calendar__navigation button{
+  color: rgba(255, 255, 255, 0.925);
+  font-size: 20px;
+  font-weight: bold;
+}
 .react-calendar__month-view__weekdays{
   margin: 0px   10px;
 }
@@ -67,15 +71,12 @@
 }
 /* 날짜 스타일 */
 .react-calendar__tile {
-  background: white;
-  border-radius: 50%;
-  aspect-ratio: 0.5/0.5;
+  
   padding: 15px 0;
   text-align: center;
   transition: all 0.3s ease-in-out;
   font-size: 1.1em;
   font-weight: 500;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 }
 
 .react-calendar__month-view__weekdays__weekday--weekend abbr{
@@ -91,18 +92,18 @@
 
 .react-calendar__tile--now {
   color: black;
-  background-color: white !important;
+  background-color: none ;
   border: 1px solid #2d488d !important;
   border-radius: 50%;
+  background: none;
   aspect-ratio: 0.5/0.5;
 }
 
 
 .fully-booked {
   color: gray !important;
-  background-color: #f0f0f0 !important;
   pointer-events: none; /* 클릭 비활성화 */
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 
@@ -145,8 +146,32 @@
 .time-slot.reserved {
   background-color: gray;
   color: white;
-  
+  position: relative;
+  overflow: hidden; /* 요소 밖으로 넘치지 않도록 설정 */
+  opacity: 0.3;
 }
+
+.time-slot.reserved::before,
+.time-slot.reserved::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.7); /* X자 색상 */
+  transform-origin: center;
+}
+
+.time-slot.reserved::before {
+  transform: translate(-50%, -50%) rotate(15deg); /* 첫 번째 대각선 */
+}
+
+.time-slot.reserved::after {
+  transform: translate(-50%, -50%) rotate(-15deg); /* 두 번째 대각선 */
+}
+
+
 
 .next-step-button {
   margin-top: 10%;
@@ -158,7 +183,7 @@
   background: var(--white, #FFF);
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15); /* 기본 입체감 */
   border: none;
-  width: 175px;
+  width: 200px;
   height: 50px;
   padding: 5%;
   color: var(--black2, #121212);
@@ -185,4 +210,17 @@
   font-size: 18px;
   color: #646870;
   opacity: 0.7;
+}
+
+
+.logout-button {
+  background: none; /* 배경 없음 */
+  margin-top: 20px;
+  border: none; /* 테두리 제거 */
+  color: gray; /* 글자색 회색 */
+  font-size: 16px; /* 글자 크기 */
+  cursor: pointer; /* 마우스 올렸을 때 손가락 모양 */
+  text-decoration: underline; /* 밑줄 */
+  opacity: 0.8; /* 약간 흐리게 */
+  
 }
