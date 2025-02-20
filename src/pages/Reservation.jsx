@@ -13,34 +13,48 @@ const Reservations = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [reservationToCancel, setReservationToCancel] = useState(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
   useEffect(() => {
     fetchReservations().then((data) => {
-      const sortedReservations = data.sort((a, b) => new Date(b.reservationDate) - new Date(a.reservationDate));
+      const updatedReservations = data.map((reservation) => {
+        const reservationEndTime = new Date(reservation.reservationEndTime);
+        const currentTime = new Date();
+
+        if (reservationEndTime < currentTime && reservation.reservationStatus !== "CANCELLED") {
+          reservation.reservationStatus = "COMPLETED"; 
+        }
+
+        return reservation;
+      });
+
+      const sortedReservations = updatedReservations.sort((a, b) => new Date(b.reservationDate) - new Date(a.reservationDate));
       setReservations(sortedReservations);
     });
   }, []);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentReservations = reservations.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(reservations.length / itemsPerPage);
+
   const handleCancel = async () => {
-    console.log("예약 취소 버튼 클릭됨");
-  
     if (reservationToCancel) {
       try {
         const success = await cancelReservation(reservationToCancel);
-  
+
         if (success) {
           fetchReservations().then((data) => {
             const sortedReservations = data.sort((a, b) => new Date(b.reservationDate) - new Date(a.reservationDate));
             setReservations(sortedReservations);
           });
-  
-          console.log("예약 취소 성공");
-        } else {
-          console.log("예약 취소 실패");
         }
       } catch (error) {
         console.error("예약 취소 중 에러 발생:", error);
       }
-  
+
       setModalOpen(false);
       setReservationToCancel(null);
     }
@@ -52,6 +66,8 @@ const Reservations = () => {
         return "예약중";
       case "CANCELLED":
         return "예약취소";
+      case "COMPLETED":
+        return "사용완료";
       default:
         return "사용완료";
     }
@@ -62,17 +78,17 @@ const Reservations = () => {
   };
 
   const openCancelModal = (id) => {
-    setReservationToCancel(id);  
-    setModalOpen(true);  
+    setReservationToCancel(id);
+    setModalOpen(true);
   };
 
   const closeModal = () => {
-    setModalOpen(false);  
-    setReservationToCancel(null);  
+    setModalOpen(false);
+    setReservationToCancel(null);
   };
 
   const formatTimeSlice = (dateString) => {
-    return dateString.split("T")[1].slice(0, 5); 
+    return dateString.split("T")[1].slice(0, 5);
   };
 
   return (
@@ -80,27 +96,30 @@ const Reservations = () => {
       <NavigationBar title="예약 일정 확인/취소" />
       <div className="contents-container">
         <div className="text-wrapper">최근 30일 이내</div>
-        {reservations.length > 0 ? (
-          reservations.map((res, index) => (
+        {currentReservations.length > 0 ? (
+          currentReservations.map((res, index) => (
             <div className="reservation-item" key={res.id}>
               <div className="reservation-header">
-                <div className="reservation-number">{index + 1}</div>
+                <div className="reservation-number">{indexOfFirstItem + index + 1}</div>
                 <p>{new Date(res.reservationDate).toLocaleDateString()}</p>
                 <button className="dropdown-icon" onClick={() => toggleReservationDetails(res.id)}>
                   <img src={DownIcon} />
                 </button>
               </div>
-
               {selectedReservation === res.id && (
                 <div className="reservation-details">
                   <div className="item-wrapper">
                     <div className="detail-items">신청 일자 {res.reservationDate}</div>
                     <div className="detail-items">
-                      이용 시간  {formatTimeSlice(res.reservationStartTime)} ~ {formatTimeSlice(res.reservationEndTime)}
+                      이용 시간 {formatTimeSlice(res.reservationStartTime)} ~ {formatTimeSlice(res.reservationEndTime)}
                     </div>
-                    <div className='detail-items'>예약 상태   {getReservationStatusMessage(res.reservationStatus)}</div>
+                    <div className='detail-items'>예약 상태 {getReservationStatusMessage(res.reservationStatus)}</div>
                   </div>
-                  <button className="cancel" onClick={() => openCancelModal(res.id)}>
+                  <button
+                    className={`cancel ${res.reservationStatus === "CANCELLED" || res.reservationStatus === "COMPLETED" ? "disabled" : ""}`}
+                    onClick={() => openCancelModal(res.id)}
+                    disabled={res.reservationStatus === "CANCELLED" || res.reservationStatus === "COMPLETED"}
+                  >
                     예약 취소
                   </button>
                 </div>
@@ -111,6 +130,19 @@ const Reservations = () => {
           <p>예약 내역이 없습니다.</p>
         )}
       </div>
+
+      <div className="pagination-container">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            className={`pagination-button ${currentPage === index + 1 ? "active" : ""}`}
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+
       <CancelModal isOpen={modalOpen} onClose={closeModal} onConfirm={handleCancel} />
     </div>
   );
