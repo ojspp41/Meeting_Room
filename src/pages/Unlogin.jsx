@@ -6,6 +6,8 @@ import './css/Unlogin.css';
 import { useAnimationStore } from '../../store';
 // Lottie 파일 경로
 import startAnimation from '../../public/assets/lottie/start.json';
+import instance from '../axiosConfig';
+
 
 function Unlogin() {
   const [studentId, setStudentId] = useState('');
@@ -35,6 +37,7 @@ function Unlogin() {
   }, []);
   
 
+  
 
   const toggleTooltip = () => {
     setShowTooltip(!showTooltip);
@@ -46,32 +49,38 @@ function Unlogin() {
       return;
     }
 
+   
     const payload = {
       studentId,
       password,
     };
-
     try {
+      await axios.get('https://csiereserve.store/api/logout', { withCredentials: true });
+    } catch (error) {
+      // 로그아웃 요청 실패해도 무시
+    }
+    
+    try {
+      
       const response = await axios.post('https://csiereserve.store/api/login123', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
         withCredentials: true, // 자동으로 쿠키 포함
       });
-
-      const userInfoResponse = await axios.get('https://csiereserve.store/api/main123', {
-        withCredentials: true,
-      });
-  
-      console.log('사용자 정보:', userInfoResponse.data);
-  
-      const { userRole, studentId, name } = userInfoResponse.data;
+      const { userRole, studentId, name } = response.data.data;
       
+      
+
       localStorage.setItem('userRole', userRole);
       localStorage.setItem('studentId', studentId);
       localStorage.setItem('name', name);
-      alert(`로그인 성공: ${response.data.message}`);
-      navigate('/mainpage');
+      
+      if (response.data.data.userRole === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/mainpage");
+      }
     } catch (error) {
       alert(`로그인 실패: ${error.response?.data?.message || error.message}`);
     }
