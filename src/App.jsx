@@ -30,7 +30,7 @@ import AdminFaqEditDetail from './pages/AdminFaqEditDetail.jsx' ;
 import AdminNoticeEdit from './pages/AdminNoticeEdit.jsx' ;
 import AdminNoticeEditDetail from './pages/AdminNoticeEditDetail.jsx' ;
 import Reservation from './pages/Reservation.jsx';
-
+import OpenExternalBrowser from './pages/OpenExternalBrowser.jsx';
 
 // ✅ QueryClient 인스턴스 생성
 const queryClient = new QueryClient();
@@ -40,6 +40,7 @@ function App() {
 
     <QueryClientProvider client={queryClient}> {/* ✅ React Query 적용 */}
       <div className="App">
+        <OpenExternalBrowser />
         <RecoilRoot>
           <BrowserRouter>
             <Routes>
