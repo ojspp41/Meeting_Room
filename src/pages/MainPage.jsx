@@ -229,9 +229,7 @@ function MainPage() {
           value={date}
           locale="en-US"
           tileClassName={tileClassName}
-          formatMonthYear={(locale, date) =>
-            new Intl.DateTimeFormat('ko-KR', { month: 'long' }).format(date) 
-          }
+
         />
       </motion.div>
       <motion.div 
