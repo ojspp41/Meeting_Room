@@ -18,31 +18,32 @@ const slideDown = keyframes`
 
 export const NavBarContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   height: 76px;
+  background-color:white;
   color: var(--black2, #121212);
   text-align: center;
-  font-family: Pretendard;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: bold;
   line-height: 150%;
-  border-bottom: 1px solid #B4B4B4; /* 하단 보더 추가 */
+  border-bottom: 1px solid #B4B4B4; 
   z-index: 100;
-  
-  
+`;
+export const TextDiv =styled.div`
+width:60%;
 `;
 
 export const LogoImage = styled.img`
-  width: 31px; 
-  height: 42px;  
+  width: 41px; 
+  height: 52px;  
 `;
 
 export const VectorImage = styled.img`
   width: 24px; 
   height: 24px;
-  padding: 2%;  
+  padding: 2%;
 `;
 export const DropdownMenu = styled.div`
   position: absolute;

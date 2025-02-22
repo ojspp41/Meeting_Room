@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem } from '../NavigationBar/Styles'; 
+import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem, TextDiv } from '../NavigationBar/Styles'; 
 
 function NavigationBar({ title }) {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ function NavigationBar({ title }) {
       <LogoImage src="/assets/logo.svg" alt='로고'
       onClick={handleLogoClick} // ✅ 로고 클릭 시 이동
       />
-      <span>{title}</span>
+      <TextDiv>{title}</TextDiv>
       <VectorImage 
               src={isOpen ? "/assets/x.png" : "/assets/vector.svg"} 
               alt="메뉴 토글"

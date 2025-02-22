@@ -1,11 +1,10 @@
-// Styles.js
+
 import styled from "styled-components";
 
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  margin-right: 4%;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
@@ -15,6 +14,10 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
   width: 310px;
   height: 180px;
   background: white;
@@ -23,7 +26,6 @@ export const ModalContent = styled.div`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   color: var(--black2, #121212);
   font-size: 20px;
-  font-style: normal;
   font-weight: 600;
   line-height: 150%;
 `;

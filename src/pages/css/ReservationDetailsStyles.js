@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px 12px;
+  background-color: #F5F5F5;
 
 `;
 
@@ -14,10 +14,10 @@ export const ReservationDetails = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  background-color:white;
   border: 2px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
   margin-top: 13%;
   height: 50%;
   width: calc(100% - 40px);
@@ -68,7 +68,7 @@ export const ParticipantsSelect = styled.select`
   font-family: Pretendard;
   font-size: 18px;
   color: #b4b4b4;
-  padding: 5px;
+  
   border-radius: 5px;
   background: none;
   border: 1px solid #ccc;
