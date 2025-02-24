@@ -28,6 +28,26 @@ export const NavBarContainer = styled.div`
   font-size: 25px;
   font-weight: bold;
   line-height: 150%;
+  background: white;
+  border-bottom: 1px solid #B4B4B4; /* 하단 보더 추가 */
+  z-index: 100;
+  
+  
+`;
+export const NavMainContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 40px);
+  height: 76px;
+  color: var(--black2, #121212);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 150%;
+  background: white;
+  padding: 0px 20px;
   border-bottom: 1px solid #B4B4B4; /* 하단 보더 추가 */
   z-index: 100;
   

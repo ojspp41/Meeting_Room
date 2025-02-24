@@ -1,26 +1,29 @@
 .mainpage-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   height: 100%;
   align-items: center;
+  background: linear-gradient(135deg, #f8f9fab1, #e9ecefd3);
+}
+.navs{
+  width:calc(100% - 40px) ;
   padding: 0px 20px;
 }
 .react-calendar {
-  width: 100%;
+  width: calc(100% - 40px);
   margin-top: 30px;
   border: none;
-  
-  padding-bottom: 30px;
-  background: linear-gradient(135deg, #f8f9fab1, #e9ecefd3); /* 은은한 그라데이션 */
-    border-radius: 16px; /* 둥근 모서리 */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom
+  : 20px;
+  background: linear-gradient(135deg, #f8f9fab1, #e9ecefd3);
 }
 .react-calendar__navigation {
   display: flex;
   height: 44px;
-  margin-bottom: 1em;
+  margin-bottom: 40px;
   border-radius: 12px; /* 둥근 모서리 */
-  background: linear-gradient(135deg, #3856a1, #3856a1); /* 그라데이션 배경 */
   
   align-items: center;
   justify-content: spae-between;
@@ -29,6 +32,15 @@
 }
 
 /* 네비게이션 버튼 */
+.react-calendar__viewContainer {
+  
+  margin-right: auto;
+  margin-left: auto;
+  background-color: white; /* 배경색 흰색 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  padding: 20px 10px; /* 내부 여백 */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+}
 
 
 /* 월, 연도 텍스트 */
@@ -41,7 +53,7 @@
 }
 
 .react-calendar__navigation button{
-  color: rgba(255, 255, 255, 0.925);
+  color: rgba(0, 0, 0, 0.925);
   font-size: 20px;
   font-weight: bold;
 }
@@ -59,8 +71,12 @@
   font-weight: bold;
   color: #0C2E86;
 }
-
-
+.mb{
+  margin-bottom: 70px;
+}
+.react-calendar__month-view__days__day--weekend{
+  color: black;
+}
 
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {
@@ -79,9 +95,6 @@
   font-weight: 500;
 }
 
-.react-calendar__month-view__weekdays__weekday--weekend abbr{
-  color: rgba(247, 39, 39, 0.699) !important; /* !important를 올바르게 적용 */
-}
 
 .react-calendar__tile--active {
   background: #0C2E86 !important;
@@ -174,14 +187,17 @@
 
 
 .next-step-button {
-  margin-top: 10%;
+  position: fixed;  /* 화면 하단에 고정 */
+  bottom: 20px;  /* 하단에서 20px 위 */
+  
+  transform: translateX(-50%); /* 정중앙으로 이동 */
   color: #646870;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
   background: var(--white, #FFF);
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15); /* 기본 입체감 */
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
   border: none;
   width: 200px;
   height: 50px;
@@ -190,11 +206,12 @@
   font-size: 16px;
   font-weight: 600;
   transition: all 0.3s ease-in-out;
-  margin-bottom: 40px;
+  z-index: 2900;
 }
 
+
 .next-step-button.active {
-  background-color: #0C2E861A; 
+  background-color: #beccebf8; 
   color: #0C2E86;
   cursor: pointer;
 }
@@ -224,3 +241,4 @@
   opacity: 0.8; /* 약간 흐리게 */
   
 }
+

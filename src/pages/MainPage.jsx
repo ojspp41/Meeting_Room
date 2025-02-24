@@ -3,7 +3,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import NavigationBar from '../components/NavigationBar/NavigationBar';
+import NavMain from '../components/NavigationBar/navmain';
 import { fetchFullyBookedDates } from '../apis/fullyBooked';
 import { fetchReservedTimes } from '../apis/reservation';
 import { fetchAvailableTimes } from '../apis/availableTimes';
@@ -218,7 +218,7 @@ function MainPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.0 }}
     >
-      <NavigationBar title="컴퓨터정보공학부" />
+      <NavMain title="컴퓨터정보공학부" />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -227,8 +227,12 @@ function MainPage() {
         <Calendar
           onChange={handleDateChange}
           value={date}
-          locale="en-US"
+          locale="ko-KR" // 한글 로케일 적용
+          calendarType="hebrew" // 일요일부터 시작하는 달력
+          formatMonthYear={(locale, date) => `${date.getMonth() + 1}월`}
+          formatDay={(locale, date) => date.getDate()} // 숫자만 표시 
           tileClassName={tileClassName}
+          
         />
       </motion.div>
       <motion.div 
@@ -265,7 +269,8 @@ function MainPage() {
           다음 단계
         </motion.button>
       )}
-      <button className="logout-button" onClick={handleLogout}>로그아웃</button>
+      <div className="mb"></div>
+      {/* <button className="logout-button" onClick={handleLogout}>로그아웃</button> */}
     </motion.div>
   );
 }
