@@ -42,9 +42,9 @@ export const Faq = () => {
   const totalPages = Math.ceil(faqs.length / itemsPerPage);
 
   return (
-    <div className="faq-container">
+    <div>
       <NavigationBar title="FAQ"/>
-      
+      <div className="faq-container">
       {/* FAQ 리스트 */}
       <motion.div 
         className="faq-list"
@@ -94,6 +94,7 @@ export const Faq = () => {
       >
         직접 문의하기
       </motion.button>
+      </div>
     </div>
   );
 };

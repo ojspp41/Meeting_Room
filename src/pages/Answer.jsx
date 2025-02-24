@@ -47,8 +47,9 @@ export const Answer = () => {
   const totalPages = Math.ceil(notices.length / itemsPerPage);
 
   return (
-    <div className="answer-container"> 
+    <div> 
       <NavigationBar title="공지사항" />
+      <div  className="answer-container">
       <motion.div 
         className="answer-list"
         initial={{ opacity: 0, y: 20 }} 
@@ -84,6 +85,7 @@ export const Answer = () => {
             {index + 1}
           </button>
         ))}
+      </div>
       </div>
     </div>
   );

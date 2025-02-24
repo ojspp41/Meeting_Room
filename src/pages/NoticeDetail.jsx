@@ -82,10 +82,10 @@ const NoticeDetail = () => {
   }
 
   return (
-    <div className="notice-detail-container">
-      <div className="notice-navbar">
+    <div>
+      <div className="notice-detail-container">
         <NavigationBar title="공지사항 상세" />
-      </div>
+
       <div className="notice-content">
         <h2 className="notice-title">{notice.title}</h2>
         <p className="notice-date">{notice.date}</p>
@@ -109,6 +109,7 @@ const NoticeDetail = () => {
       </div>
 
       <div className="next-notice-button" onClick={() => navigate('/notice')}>목록</div>
+      </div>
     </div>
   );
 };

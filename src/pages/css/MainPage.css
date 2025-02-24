@@ -10,7 +10,7 @@
   width: 326px;
   padding: 24px 0px;
   border: none;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
   background-color: #F5F5F5;
 }
 .react-calendar__navigation {
@@ -44,6 +44,8 @@
 }
 
 .react-calendar__month-view{
+  padding: 0px 10px;
+  padding-bottom: 20px;
   border-radius: 10px;
   background: var(--white, #FFF);
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);

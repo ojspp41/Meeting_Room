@@ -10,9 +10,9 @@ const MapView = () => {
   const [selectedImage, setSelectedImage] = useState(null); // 클릭된 이미지 저장
 
   return (
-    <div className="map-container">
+    <div>
       <NavigationBar title="회의실/과방 위치" />
-
+      <div  className="map-container">
       <div className="map-buttons">
         <motion.button
           className={!is3D ? "active" : ""}
@@ -77,6 +77,7 @@ const MapView = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };
