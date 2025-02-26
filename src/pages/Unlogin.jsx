@@ -8,11 +8,11 @@ import { useAnimationStore } from '../../store';
 import startAnimation from '../../public/assets/lottie/start.json';
 import instance from '../axiosConfig';
 
-
 function Unlogin() {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showPasswordTooltip, setShowPasswordTooltip] = useState(false); 
   const { showAnimation, setShowAnimation } = useAnimationStore(); // zustand 상태 사용
   const navigate = useNavigate();
   console.log(showAnimation);
@@ -37,7 +37,9 @@ function Unlogin() {
   }, []);
   
 
-  
+  const togglePasswordTooltip = () => {
+    setShowPasswordTooltip(!showPasswordTooltip);
+  };
 
   const toggleTooltip = () => {
     setShowTooltip(!showTooltip);
@@ -120,9 +122,16 @@ function Unlogin() {
 
           <div className="auth-links">
             <a href="/fee" className="auth-link">회원가입</a> | 
-            <a href="/find" className="auth-link">비밀번호 찾기</a>
+            <span className="auth-link" onClick={togglePasswordTooltip}>비밀번호 찾기</span>
           </div>
-          
+          {/* ✅ 툴팁 UI 추가 */}
+          {showPasswordTooltip && (
+            <div className="password-tooltip">
+              하단 [문의하기]를 통해 
+              [이름/학번]을 보내주시면 <br/>
+              해결해드리겠습니다.
+            </div>
+          )}
           <div className="inquiry-wrapper">
             <div className="inquiry-icon-container" onClick={toggleTooltip}>
                 <img src="/assets/inquiry.svg" alt="문의하기" className="inquiry-icon" />

@@ -99,7 +99,12 @@ const NoticeDetail = () => {
         {nextNotices.length > 0 ? (
           nextNotices.map((item, index) => (
             <div key={index} className="next-notice" onClick={() => navigate(`/notice/${item.id}`)}>
-              <span className="next-notice-title">{item.title}</span>
+              <span className="next-notice-title">
+                {item.title.length > 15 
+                  ? `${item.title.slice(0, 15)}...` 
+                  : item.title}
+              </span>
+
               <span className="next-notice-date">{item.date}</span>
             </div>
           ))

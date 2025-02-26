@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem, TextDiv } from '../NavigationBar/Styles'; 
+import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem, TextDiv, DropdownText, DropdownIcon } from '../NavigationBar/Styles'; 
 
 function NavigationBar({ title }) {
   const navigate = useNavigate();
@@ -42,9 +42,21 @@ function NavigationBar({ title }) {
         <DropdownMenu>
           
           {menuItems.map((item, index) => (
-            <DropdownItem key={index} onClick={() => { navigate(item.path); closeDropdown(); }}>
-              {item.label}
-            </DropdownItem>
+            <DropdownItem 
+            key={index} 
+            className="dropdown-item"
+          >
+            <DropdownText
+              onClick={() => { navigate(item.path); }} 
+            >{item.label}</DropdownText>
+            <DropdownIcon 
+              src="/assets/gt.svg" 
+              alt="icon" 
+              onClick={() => { navigate(item.path); }} 
+            />
+          </DropdownItem>
+          
+          
           ))}
         </DropdownMenu>
      
