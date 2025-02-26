@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,8 @@ function MainPage() {
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState([]);
   const [holidays, setHolidays] = useState(["12-25"]);
-  
+  const buttonRef = useRef(null);
+
   const getToday = new Date();
   getToday.setHours(0, 0, 0, 0);
 
@@ -153,10 +154,17 @@ function MainPage() {
     )) {
       setSelectedTime(time);
     }
+    setTimeout(() => {
+      if (buttonRef.current) {
+        buttonRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 150);
   };
 
   const handleNextStep = () => {
-    const date = new Date(selectedDate);
+    //(null일때 수정!)
+    const date = new Date(selectedDate || new Date());
+
     const kstOffset = 9 * 60;
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + kstOffset);
 
@@ -259,6 +267,7 @@ function MainPage() {
       </motion.div>
       {selectedTime.length > 0 && (
         <motion.button 
+          ref={buttonRef}
           className="next-step-button active" 
           onClick={handleNextStep}
           initial={{ opacity: 0, scale: 0.9 }}

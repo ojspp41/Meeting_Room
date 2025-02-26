@@ -66,7 +66,11 @@ export const Answer = () => {
             transition={{ duration: 0.4, delay: index * 0.1 }}
           >
             <div className="answer-header">
-              <span className="answer-question">{notice.title}</span>
+              <span className="answer-question">
+                {notice.title.length > 27 
+                  ? `${notice.title.slice(0, 27)}...` 
+                  : notice.title}
+              </span>
               <span className="answer-arrow">{">"}</span>
             </div>
             <p className="answer-content">{notice.date}</p>

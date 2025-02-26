@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';  // âœ
 import Unlogin from './pages/Unlogin';
 import FeeCertification from './pages/FeeCertification';
 import Password from './pages/Password';
-import Find from './pages/Find';
+
 import { Faq } from './pages/Faq';
 import { Answer } from './pages/Answer.jsx';
 import MapView from './pages/Map';
@@ -47,7 +47,6 @@ function App() {
               <Route path="/" element={<Unlogin />} />
               <Route path="/fee" element={<FeeCertification />} />
               <Route path="/password" element={<Password />} />
-              <Route path="/find" element={<Find />} />
               <Route path="/faq" element={<Faq />} />
               <Route path="/notice" element={<Answer />} />
               <Route path="/map" element={<MapView />} />

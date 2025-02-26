@@ -142,3 +142,23 @@
     color: #555;
     text-decoration: underline;
   }
+
+  .password-tooltip {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #767676;
+    line-height: 1.4;
+    margin-top: 10px; /* 비밀번호 찾기 아래에 위치하도록 */
+    border: 1px solid #ddd;
+    width: calc( fit-content + 20px) ;
+    text-align: left;
+    max-width: 300px;
+  }
+  
+  .highlight {
+    font-weight: bold;
+    color: #121212;
+  }
+  

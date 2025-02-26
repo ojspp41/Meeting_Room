@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem } from '../NavigationBar/Styles'; 
+import { 
+  AdminNavBarContainer, LogoImage, VectorImage, 
+  DropdownMenu, DropdownItem, DropdownIcon ,DropdownText
+} from './Styles.js';
 
 function AdminNav({ title }) {
   const navigate = useNavigate();
@@ -14,38 +17,35 @@ function AdminNav({ title }) {
     setIsOpen(false);
   };
 
-
-
   const menuItems = [
-    { label: "관리자 메인", path: "/admin" },
-    { label: "관리자 학생회비", path: "/admin/fee" },
-    { label: "관리자 공지사항", path: "/admin/notice" },
-    { label: "관리자 FAQ", path: "/admin/faq" }
+    { label: "관리자 메인", path: "/admin", icon: "/assets/home.svg" },
+    { label: "관리자 학생회비", path: "/admin/fee", icon: "/assets/money.svg" },
+    { label: "관리자 공지사항", path: "/admin/notice", icon: "/assets/notice.svg" },
+    { label: "관리자 FAQ", path: "/admin/faq", icon: "/assets/faq.svg" }
   ];
 
   return (
-    <NavBarContainer>
-      <LogoImage src="/assets/logo.svg" alt='로고'/>
+    <AdminNavBarContainer>
+      <LogoImage src="/assets/logo.svg" alt="로고" onClick={() => navigate('/admin')} />
       <span>{title}</span>
-      {/* ✅ 토글 상태에 따라 아이콘 변경 */}
       <VectorImage 
         src={isOpen ? "/assets/x.png" : "/assets/vector.svg"} 
         alt="메뉴 토글"
         onClick={toggleDropdown} 
       />
       {isOpen && (
-        
         <DropdownMenu>
-          
           {menuItems.map((item, index) => (
-            <DropdownItem key={index} onClick={() => { navigate(item.path); closeDropdown(); }}>
-              {item.label}
+            <DropdownItem key={index}>
+              <DropdownText onClick={() => { navigate(item.path); closeDropdown(); }}>
+                {item.label}
+              </DropdownText>
+              <DropdownIcon src="/assets/gt.svg" alt="icon" onClick={() => { navigate(item.path); closeDropdown(); }} />
             </DropdownItem>
           ))}
         </DropdownMenu>
-     
       )}
-    </NavBarContainer>
+    </AdminNavBarContainer>
   );
 }
 
