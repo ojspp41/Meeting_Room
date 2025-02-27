@@ -44,3 +44,15 @@
     font-weight: 600;
     margin-top: 15px;
 }
+.answer-question {
+    font-size: 16px;
+    font-weight: bold;
+    color: #121212;
+    flex: 1; /* 제목이 남은 공간을 차지하도록 설정 */
+    line-height: 1.5; /* 줄 높이 조정 */
+    
+    /* 한 줄 초과 시 ... 처리 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

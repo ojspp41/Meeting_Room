@@ -4,13 +4,13 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
-import { fetchFullyBookedDates } from '../apis/fullyBooked';
-import { fetchReservedTimes } from '../apis/reservation';
-import { fetchAvailableTimes } from '../apis/availableTimes';
+import { fetchFullyBookedDates, fetchReservedTimes, fetchAvailableTimes } from '../apis/mainpage.js'
 import './css/MainPage.css';
 import axios from 'axios';
 
 function MainPage() {
+
+  
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -61,6 +61,44 @@ function MainPage() {
   }, [date]);
 
   
+  useEffect(() => {
+    const checkTodayAvailability = async () => {
+      const formattedDate = date.toISOString().split('T')[0];
+  
+      // 🚨 오늘 날짜가 예약 불가능한 경우 availableTimes를 비움 🚨
+      if (
+        isDatePast(date) || 
+        isWeekend(date) || 
+        isDate30DaysLater(date) || 
+        fullyBookedDates.some(d => d === formattedDate) || 
+        holidays.includes(`${date.getMonth() + 1}-${date.getDate()}`)
+      ) {
+        setAvailableTimes([]);
+        return;
+      }
+  
+      // ✅ 오늘 날짜가 예약 가능하면 fetchAvailableTimes 실행
+      const isAvailable = await fetchAvailableTimes(date);
+      if (isAvailable) {
+        const allSlots = [];
+        for (let hour = 10; hour < 22; hour += 2) {
+          const startTime = `${hour}:00`;
+          const endTime = `${hour + 2}:00`;
+  
+          const isReserved = reservedTimes[date.getDate()]?.some(
+            (res) => hour < res.end && (hour + 2) > res.start
+          );
+  
+          allSlots.push({ time: `${startTime}~${endTime}`, isReserved });
+        }
+        setAvailableTimes(allSlots);
+      } else {
+        setAvailableTimes([]);
+      }
+    };
+  
+    checkTodayAvailability(); // 컴포넌트가 처음 렌더링될 때 실행
+  }, [date, fullyBookedDates, holidays, reservedTimes]); // 날짜 또는 예약 정보가 변경될 때 실행
   
 
   const handleDateChange = async (selectedDate) => {
