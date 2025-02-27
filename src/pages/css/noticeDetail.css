@@ -59,27 +59,33 @@
     background-color: #F5F5F5;
   }
   .next-notices-container{
-    margin-top: 40px;
+    margin-top: 25px;
+    
+    margin-bottom: 35px;
   }
 .next-notice{
     text-align: left;
     margin-left: 20px;
-    margin-bottom: 25px;
+    display: flex;
+    margin-bottom: 20px;
 }
 .next-notice-title {
-    
+  flex: 1; /* 제목이 남은 공간을 차지하도록 설정 */
     color: #767676;
-    padding: 20px;
+
     font-size: 17px;
     font-weight: 300;
-    line-height: 14px;
+    /* 한 줄 초과 시 ... 처리 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
 }
 .next-notice-date {
     color: #767676;
-    padding: 20px;
+  padding-right: 20px;
     font-size: 17px;
     font-weight: 300;
-    line-height: 30px;
 }
 .next-notice-button {
     background-color: black;
