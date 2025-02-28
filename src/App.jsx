@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';  // �
 import Unlogin from './pages/Unlogin';
 import FeeCertification from './pages/FeeCertification';
 import Password from './pages/Password';
+import MeetingRoomInfo from './pages/MeetingRoomInfo.jsx'
 
 import { Faq } from './pages/Faq';
 import { Answer } from './pages/Answer.jsx';
@@ -54,6 +55,7 @@ function App() {
               <Route path="/reservation-details" element={<ReservationDetails />} />
               <Route path="/notice/:id" element={<NoticeDetail />} />
               <Route path="/reservation" element={<Reservation />} />
+              <Route path="/meetingroominfo" element={<MeetingRoomInfo />} />
               {/* 관리자 페이지 */}
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<AdminLogin />} />   
