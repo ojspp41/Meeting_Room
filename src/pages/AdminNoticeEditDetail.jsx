@@ -21,7 +21,7 @@ export const AdminNoticeEditDetail = () => {
   // ✅ 공지사항 수정 API 요청 (useMutation 사용)
   const mutation = useMutation({
     mutationFn: async (updatedNotice) => {
-      await axiosCookie.post(`/api/notice/${id}`, updatedNotice);
+      await axiosCookie.post(`/api/admin/notice/${id}`, updatedNotice);
     },
     onSuccess: () => {
       alert('공지사항이 수정되었습니다.');

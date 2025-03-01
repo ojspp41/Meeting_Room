@@ -27,7 +27,7 @@ export const AdminNoticeEdit = () => {
   // ✅ 공지사항 삭제 (useMutation 사용)
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
-      await axiosCookie.delete(`/api/notice/${id}`);
+      await axiosCookie.delete(`/api/admin/notice/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['notices']); // 공지사항 목록 자동 새로고침

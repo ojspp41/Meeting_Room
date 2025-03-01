@@ -6,7 +6,6 @@ import './css/Unlogin.css';
 import { useAnimationStore } from '../../store';
 // Lottie 파일 경로
 import startAnimation from '../../public/assets/lottie/start.json';
-import instance from '../axiosConfig';
 
 function Unlogin() {
   const [studentId, setStudentId] = useState('');
@@ -50,26 +49,35 @@ function Unlogin() {
       alert('학번과 비밀번호를 입력해주세요.');
       return;
     }
-
-   
-    const payload = {
-      studentId,
-      password,
-    };
-    try {
-      await axios.get('https://csiereserve.store/api/logout', { withCredentials: true });
-    } catch (error) {
-      // 로그아웃 요청 실패해도 무시
-    }
+  
+    const payload = { studentId, password };
+  
+    
     
     try {
-      
+      // ✅ 로그인 요청
       const response = await axios.post('https://csiereserve.store/api/login123', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true, // 자동으로 쿠키 포함
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true, // 쿠키 포함 요청
+        validateStatus: () => true, // 모든 상태 코드 응답 받기 (403, 500 포함)
       });
+  
+      console.log("📌 전체 응답:", response);
+  
+      // ✅ 응답 헤더에서 Authorization 토큰 추출
+      const authorizationHeader = response.headers['authorization'];
+      console.log(authorizationHeader);
+      if (authorizationHeader) {
+        const accessToken = authorizationHeader.split(' ')[0]; // "Bearer token_value"에서 token_value 추출
+        console.log("📌 Access Token:", accessToken);
+        localStorage.setItem('accessToken', accessToken);
+      } else {
+        console.warn("❌ Authorization 헤더가 없습니다. 쿠키로 인증하는지 확인 필요");
+      }
+  
+      // ✅ 쿠키 저장 확인 (Safari 등 브라우저 차단 여부 확인)
+      console.log("📌 쿠키 확인:", document.cookie);
+  
       const { userRole, studentId, name } = response.data.data;
       
       
@@ -83,10 +91,13 @@ function Unlogin() {
       } else {
         navigate("/mainpage");
       }
+  
     } catch (error) {
+      console.error("❌ 로그인 오류:", error.response?.data || error.message);
       alert(`로그인 실패: ${error.response?.data?.message || error.message}`);
     }
   };
+  
 
   return (
     <div >

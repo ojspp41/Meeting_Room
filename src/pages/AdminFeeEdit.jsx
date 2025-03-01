@@ -18,7 +18,7 @@ export const AdminFeeEdit = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['studentFeePayers'],
     queryFn: async () => {
-      const response = await axiosCookie.get('/api/studentFeePayer/getAll', { withCredentials: true });
+      const response = await axiosCookie.get('/api/admin/studentFeePayer/getAll', { withCredentials: true });
       return response.data.data;
     },
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터를 fresh 상태로 유지
