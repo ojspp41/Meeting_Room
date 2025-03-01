@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 export const useFeeStore = create((set) => ({
-  name: '기명명',
-  studentId: '202023456',
+  name: '',
+  studentId: '',
   password: '',
   setName: (name) => set({ name }),
   setStudentId: (studentId) => set({ studentId }),

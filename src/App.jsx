@@ -46,7 +46,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Unlogin />} />
-
+              <Route path="/fee" element={<FeeCertification />} />
+              <Route path="/password" element={<Password />} />
               <Route element={<PrivateRoute />}>
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/notice" element={<Answer />} />
