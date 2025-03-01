@@ -32,7 +32,7 @@ import AdminNoticeEdit from './pages/AdminNoticeEdit.jsx' ;
 import AdminNoticeEditDetail from './pages/AdminNoticeEditDetail.jsx' ;
 import Reservation from './pages/Reservation.jsx';
 import OpenExternalBrowser from './pages/OpenExternalBrowser.jsx';
-
+import PrivateRoute from './pages/PrivateRoute.jsx';
 // ✅ QueryClient 인스턴스 생성
 const queryClient = new QueryClient();
 
@@ -46,16 +46,17 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Unlogin />} />
-              <Route path="/fee" element={<FeeCertification />} />
-              <Route path="/password" element={<Password />} />
-              <Route path="/faq" element={<Faq />} />
-              <Route path="/notice" element={<Answer />} />
-              <Route path="/map" element={<MapView />} />
-              <Route path="/mainpage" element={<MainPage />} />
-              <Route path="/reservation-details" element={<ReservationDetails />} />
-              <Route path="/notice/:id" element={<NoticeDetail />} />
-              <Route path="/reservation" element={<Reservation />} />
-              <Route path="/meetingroominfo" element={<MeetingRoomInfo />} />
+
+              <Route element={<PrivateRoute />}>
+                <Route path="/faq" element={<Faq />} />
+                <Route path="/notice" element={<Answer />} />
+                <Route path="/map" element={<MapView />} />
+                <Route path="/mainpage" element={<MainPage />} />
+                <Route path="/reservation-details" element={<ReservationDetails />} />
+                <Route path="/notice/:id" element={<NoticeDetail />} />
+                <Route path="/reservation" element={<Reservation />} />
+                <Route path="/meetingroominfo" element={<MeetingRoomInfo />} />
+              </Route>
               {/* 관리자 페이지 */}
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<AdminLogin />} />   

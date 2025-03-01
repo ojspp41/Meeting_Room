@@ -72,7 +72,7 @@
 .next-notice-title {
   flex: 1; /* 제목이 남은 공간을 차지하도록 설정 */
     color: #767676;
-
+    margin-right: 10px;
     font-size: 17px;
     font-weight: 300;
     /* 한 줄 초과 시 ... 처리 */

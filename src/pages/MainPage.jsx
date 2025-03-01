@@ -229,15 +229,18 @@ function MainPage() {
     });
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await axios.get('https://csiereserve.store/api/logout', { withCredentials: true });
-      localStorage.clear();
+      // 로컬스토리지에서 accessToken 삭제
+      localStorage.removeItem('accessToken');
+      
+      // 로그인 페이지로 리디렉션
       navigate('/');
     } catch (error) {
       alert('로그아웃 실패');
     }
   };
+  
 
 
 

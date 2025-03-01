@@ -9,13 +9,20 @@ import NavigationBar from '../components/NavigationBar/NavigationBar';
 const fetchNotices = async () => {
   const response = await axiosCookie.get('/api/notice');
   if (response.data?.data?.noticeList) {
-    return response.data.data.noticeList.map((notice) => ({
+    const formattedNotices = response.data.data.noticeList.map((notice) => ({
       ...notice,
       date: formatDate(notice.createdAt),
     }));
+
+    // localStorage에 noticeIds 저장
+    localStorage.setItem('noticeIds', JSON.stringify(formattedNotices.map(n => n.id)));
+    
+    // formattedNotices 반환
+    return formattedNotices;
   }
   throw new Error('Invalid notice data');
 };
+
 
 const formatDate = (isoString) => {
   const date = new Date(isoString);

@@ -62,21 +62,17 @@ function Unlogin() {
         validateStatus: () => true, // 모든 상태 코드 응답 받기 (403, 500 포함)
       });
   
-      console.log("📌 전체 응답:", response);
   
       // ✅ 응답 헤더에서 Authorization 토큰 추출
       const authorizationHeader = response.headers['authorization'];
-      console.log(authorizationHeader);
       if (authorizationHeader) {
         const accessToken = authorizationHeader.split(' ')[0]; // "Bearer token_value"에서 token_value 추출
-        console.log("📌 Access Token:", accessToken);
+        
         localStorage.setItem('accessToken', accessToken);
       } else {
         console.warn("❌ Authorization 헤더가 없습니다. 쿠키로 인증하는지 확인 필요");
       }
   
-      // ✅ 쿠키 저장 확인 (Safari 등 브라우저 차단 여부 확인)
-      console.log("📌 쿠키 확인:", document.cookie);
   
       const { userRole, studentId, name } = response.data.data;
       
