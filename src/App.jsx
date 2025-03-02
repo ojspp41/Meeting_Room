@@ -57,20 +57,23 @@ function App() {
                 <Route path="/notice/:id" element={<NoticeDetail />} />
                 <Route path="/reservation" element={<Reservation />} />
                 <Route path="/meetingroominfo" element={<MeetingRoomInfo />} />
+                {/* 관리자 페이지 */}
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/login" element={<AdminLogin />} />   
+                <Route path="/admin/notice" element={<AdminNotice />} />
+                <Route path="/admin/notice/write" element={<AdminNoticeWrite />} />  
+                <Route path="/admin/notice/edit" element={<AdminNoticeEdit />} />
+                <Route path="/admin/notice/editdetail/:id" element={<AdminNoticeEditDetail />} />
+                <Route path="/admin/faq" element={<AdminFaq />} />
+                <Route path="/admin/faq/write" element={<AdminFaqWrite />} />
+                <Route path="/admin/faq/edit" element={<AdminFaqEdit />} />
+                <Route path="/admin/faq/editdetail/:id" element={<AdminFaqEditDetail />} />
+                <Route path="/admin/fee" element={<AdminFee />} />
+                <Route path="/admin/fee/edit" element={<AdminFeeEdit />} />
+              
               </Route>
-              {/* 관리자 페이지 */}
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/login" element={<AdminLogin />} />   
-              <Route path="/admin/notice" element={<AdminNotice />} />
-              <Route path="/admin/notice/write" element={<AdminNoticeWrite />} />  
-              <Route path="/admin/notice/edit" element={<AdminNoticeEdit />} />
-              <Route path="/admin/notice/editdetail/:id" element={<AdminNoticeEditDetail />} />
-              <Route path="/admin/faq" element={<AdminFaq />} />
-              <Route path="/admin/faq/write" element={<AdminFaqWrite />} />
-              <Route path="/admin/faq/edit" element={<AdminFaqEdit />} />
-              <Route path="/admin/faq/editdetail/:id" element={<AdminFaqEditDetail />} />
-              <Route path="/admin/fee" element={<AdminFee />} />
-              <Route path="/admin/fee/edit" element={<AdminFeeEdit />} />
+
+              
             </Routes>
           </BrowserRouter>
         </RecoilRoot>

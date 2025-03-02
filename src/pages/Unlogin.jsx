@@ -16,6 +16,7 @@ function Unlogin() {
   const navigate = useNavigate();
   console.log(showAnimation);
   // 컴포넌트 마운트 시 애니메이션 상태 로드
+
   useEffect(() => {
     if (showAnimation) {
       const timer = setTimeout(() => {
@@ -24,6 +25,28 @@ function Unlogin() {
       return () => clearTimeout(timer);
     }
   }, [showAnimation, setShowAnimation]);
+  
+   // 1. 로그인된 상태 확인: accessToken과 만료 시간을 체크하여 이미 로그인된 사용자 리디렉션
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    const expiresAt = localStorage.getItem('expiresAt');
+    const userRole = localStorage.getItem('userRole');
+    const studentId = localStorage.getItem('studentId');
+    const name = localStorage.getItem('name');
+
+    const currentTime = Date.now();
+
+    // accessToken이 있고, 만료 시간이 아직 지나지 않았으며, userRole, studentId, name이 모두 존재하면 리디렉션
+    if (accessToken && expiresAt && userRole && studentId && name && currentTime < Number(expiresAt)) {
+      // userRole에 따라 리디렉션
+      if (userRole === 'ROLE_ADMIN') {
+        navigate('/admin');
+      } else if (userRole === 'ROLE_GENERAL') {
+        navigate('/mainpage');
+      }
+    }
+  }, [navigate]);
+
   useEffect(() => {
     const lastShown = localStorage.getItem('lastAnimationTime');
     const currentTime = Date.now();
@@ -67,8 +90,10 @@ function Unlogin() {
       const authorizationHeader = response.headers['authorization'];
       if (authorizationHeader) {
         const accessToken = authorizationHeader.split(' ')[0]; // "Bearer token_value"에서 token_value 추출
-        
+        // 9시간 후 만료되도록 설정
+      const expiresAt = Date.now() + 5 * 60 * 60 * 1000; // 현재 시간 + 5시간
         localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('expiresAt', expiresAt.toString());
       } else {
         console.warn("❌ Authorization 헤더가 없습니다. 쿠키로 인증하는지 확인 필요");
       }
