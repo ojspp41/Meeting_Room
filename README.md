@@ -65,3 +65,48 @@
 - 학생회비 납부 관리자 확인 가능
 
 ---
+
+
+
+더 강조된 스타일로 꾸미고, 가독성을 높이기 위해 아이콘과 구분선을 활용해 정리해 보았습니다! 🚀  
+
+---
+
+## 📚 공부한 내용 (Tistory 정리)  
+
+> 💡 **아래 링크를 클릭하면 Tistory 블로그에서 자세한 내용을 확인할 수 있습니다.**  
+
+### 🚀 **React 관련 성능 최적화 및 기능 구현**  
+🔗 [📌 **React에서 페이지네이션과 유효성 검사 구현하기**](https://ojspp41.tistory.com/6)  
+🔗 [🚀 **React에서 공지사항(Notice) 페이징 최적화 & 성능 개선하기**](https://ojspp41.tistory.com/5)  
+🔗 [🚀 **React Query를 사용하여 FAQ 관리 성능 개선하기**](https://ojspp41.tistory.com/4)  
+🔗 [📌 **React Query cacheTime VS staleTime 차이점 정리**](https://ojspp41.tistory.com/46)  
+🔗 [🚀 **React Query를 활용한 API 요청 최적화**](https://ojspp41.tistory.com/45)  
+
+---
+
+### 🔄 **React Router 및 상태 관리**  
+🔗 [🔑 **React Router에서 accessToken 없을 경우 리디렉션 처리하기**](https://ojspp41.tistory.com/53)  
+🔗 [📍 **React useLocation 상세 설명**](https://ojspp41.tistory.com/44)  
+🔗 [🗂 **Zustand 미들웨어와 일정 시간 후 상태 초기화 구현하기 (localStorage)**](https://ojspp41.tistory.com/16)  
+
+---
+
+### ⏳ **UI/UX & 캘린더, 애니메이션 관련 기능**  
+🔗 [📆 **React Calendar 설정 및 커스텀 정리**](https://ojspp41.tistory.com/42)  
+🔗 [⏳ **React에서 시간 슬롯 선택 시 자동 스크롤 기능 추가하기**](https://ojspp41.tistory.com/43)  
+🔗 [🎨 **Framer Motion: React에서 강력한 애니메이션 라이브러리**](https://ojspp41.tistory.com/17)  
+
+---
+
+### 📊 **예약 시스템 데이터 관리**  
+🔗 [🔄 **React useEffect를 활용한 예약 시스템 데이터 관리**](https://ojspp41.tistory.com/26)  
+
+---
+
+
+
+### 📌 설명  
+- **Tistory 블로그 글 제목**을 클릭하면 해당 글로 이동할 수 있도록 설정  
+- **Markdown의 링크 문법**(`🔗 [제목](URL)`)을 사용하여 깔끔하게 정리  
+- 원하는 만큼 블로그 글을 추가 가능  
