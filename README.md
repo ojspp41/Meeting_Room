@@ -4,7 +4,9 @@
 
 **회의실 예약부터 공지사항 관리까지, 한곳에서 해결하는 스마트한 예약 시스템!**  
 
-<img src="/public/assets/logo.svg" alt="Project Preview" width="100%"/>  
+<p align="center">
+  <img src="/public/assets/logo.svg" alt="Project Preview" width="50%">
+</p>
 
 ---
 
