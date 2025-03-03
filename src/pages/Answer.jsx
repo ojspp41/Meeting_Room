@@ -14,14 +14,17 @@ const fetchNotices = async () => {
       date: formatDate(notice.createdAt),
     }));
 
+    // 🟢 날짜 기준 최신순 정렬 (내림차순)
+    formattedNotices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     // localStorage에 noticeIds 저장
     localStorage.setItem('noticeIds', JSON.stringify(formattedNotices.map(n => n.id)));
-    
-    // formattedNotices 반환
+
     return formattedNotices;
   }
   throw new Error('Invalid notice data');
 };
+
 
 
 const formatDate = (isoString) => {

@@ -220,4 +220,21 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+  .notice-date {
+    font-size: 14px;
+    color: #ccc;
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: left;
+  }
+  .notice-title {
+    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 14px;
+    white-space: nowrap; /* 한 줄만 표시 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임(...) 처리 */
+    max-width: 100%; /* 부모 요소의 크기를 초과하지 않도록 설정 */
+    display: block; /* 블록 요소로 변경 */
+  }
   

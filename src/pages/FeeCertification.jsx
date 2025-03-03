@@ -20,14 +20,27 @@ function FeeCertification() {
     
     const payload = { name, studentId };
     console.log(name, studentId);
+    
     try {
-      const response = await instance.post('/admin/studentFeePayer/verify', payload);
+      const response = await instance.post('/signup/verify', payload);
       alert(`인증 완료: ${response.data.message}`);
       navigate('/password');
-    } catch {
-      alert('학생회비 납부 회원이 아닙니다.');
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 409) {
+          alert('이 학생은 이미 가입한 회원입니다. 메인 화면 문의 부탁드립니다.');
+          navigate('/');
+        } else if (error.response.status === 404) {
+          alert('이 학생은 학생회비 납부자가 아닙니다.');
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
+      } else {
+        alert('서버와의 연결에 문제가 발생했습니다.');
+      }
     }
   };
+
 
   return (
     <motion.div 

@@ -14,15 +14,18 @@ export const AdminNoticeEdit = () => {
   const itemsPerPage = 7;
   const queryClient = useQueryClient(); // React Query 캐시 관리
 
-  // ✅ 공지사항 목록 불러오기 (useQuery 사용)
-  const { data: noticeData, isLoading, isError, error } = useQuery({
-    queryKey: ['notices'],
-    queryFn: async () => {
-      const response = await axiosCookie.get('/api/notice');
-      return response.data?.data?.noticeList || [];
-    },
-    staleTime: 1000 * 60 * 15, // 15분 동안 데이터 캐싱 (300,000ms)
-  });
+    // ✅ 공지사항 목록 불러오기 (최신순 정렬 추가)
+    const { data: noticeData, isLoading, isError, error } = useQuery({
+      queryKey: ['notices'],
+      queryFn: async () => {
+        const response = await axiosCookie.get('/api/notice');
+        const notices = response.data?.data?.noticeList || [];
+
+        // 🟢 최신 공지가 먼저 나오도록 내림차순 정렬
+        return notices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      },
+      staleTime: 1000 * 60 * 15, // 15분 동안 데이터 캐싱
+    });
 
   // ✅ 공지사항 삭제 (useMutation 사용)
   const deleteMutation = useMutation({
@@ -65,6 +68,11 @@ export const AdminNoticeEdit = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  // ✅ 날짜 포맷 변환 함수 추가
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toISOString().split('T')[0].replace(/-/g, '.'); // YYYY.MM.DD 형식
+  };
 
   return (
     <div className="admin-container">
@@ -85,8 +93,10 @@ export const AdminNoticeEdit = () => {
         {displayedData.map((item) => (
           <div key={item.id} className="list-item">
             <div className="list-text">
-              제목: {item.title.length > 12 ? item.title.slice(0, 12) + '...' : item.title}
+              <p className="notice-title">제목: {item.title.length > 12 ? item.title.slice(0, 12) + '...' : item.title}</p>
+              <p className="notice-date">{formatDate(item.createdAt)}</p>
             </div>
+            
             <div className="list-buttons">
               <button className="edit-button" onClick={() => handleEdit(item)}>수정</button>
               <button
