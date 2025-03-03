@@ -14,7 +14,7 @@ export const AdminNoticeWrite = () => {
   // ✅ 공지사항 등록 API 요청 (useMutation 사용)
   const mutation = useMutation({
     mutationFn: async (newNotice) => {
-      await axiosCookie.post('/api/notice', newNotice);
+      await axiosCookie.post('/api/admin/notice', newNotice);
     },
     onSuccess: () => {
       alert('공지사항이 등록되었습니다.');
