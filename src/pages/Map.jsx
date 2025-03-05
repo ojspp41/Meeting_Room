@@ -12,7 +12,16 @@ const MapView = () => {
   return (
     <div>
       <NavigationBar title="회의실/과방 위치" />
+      <motion.p
+        className="map-description"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        소피아바리라(학생예외인계점) B208
+      </motion.p>
       <div  className="map-container">
+      
       <div className="map-buttons">
         <motion.button
           className={!is3D ? "active" : ""}
@@ -46,14 +55,7 @@ const MapView = () => {
         onClick={() => setSelectedImage(is3D ? image3D : image2D)} // 클릭 시 이미지 저장
       />
 
-      <motion.p
-        className="map-description"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        소피아바리라(학생예외인계점) B208
-      </motion.p>
+      
 
       {/* 확대된 이미지 모달 */}
       <AnimatePresence>

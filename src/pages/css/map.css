@@ -9,19 +9,19 @@
   
   .map-buttons {
     position: absolute;
-    top: -34px;
-    left: 20px;
+    top: -32px;
+    left: 25px;
     display: flex;
-    gap: 5px;
-    background :#F5F5F5;
+    gap: 16px;
     z-index: 1;
   }
   
   .map-buttons button {
-    padding: 8px 16px;
+    padding: 0px 18px;
     border: none;
-    background: #ffffff;
-    font-weight: bold;
+    height: 40px;
+    background :#f0ededd1;
+    font-size: 15px;
     cursor: pointer;
     border-radius: 5px;
   }
@@ -33,18 +33,19 @@
   
   .map-image {
     width: 100%;
-    height: 586px;
     display: block;
     border-radius: 10px;
-    margin-top: 50px;
+    margin-top: 90px;
     margin-bottom: 10px;
-    z-index: 1;
+    position: relative; /* static이 아닌 값 사용 */
+    z-index: 100;
   }
   
   .map-description {
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: left;
+    margin: 40px 0px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
   }
   .modal-overlay {
     position: fixed;
