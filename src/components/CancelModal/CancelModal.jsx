@@ -13,8 +13,8 @@ const CancelModal = ({ isOpen, onClose, onConfirm }) => {
         </S.CancelIcon>
         <S.ModalText>해당 예약을 취소하시겠습니까?</S.ModalText>
         <S.ModalButtons>
-          <S.ConfirmButton onClick={onConfirm}>예</S.ConfirmButton>
-          <S.CancelButton onClick={onClose}>아니오</S.CancelButton>
+          <S.ConfirmButton onClick={onConfirm}>확인</S.ConfirmButton>
+          <S.CancelButton onClick={onClose}>아니요</S.CancelButton>
         </S.ModalButtons>
       </S.Modal>
     </S.ModalOverlay>

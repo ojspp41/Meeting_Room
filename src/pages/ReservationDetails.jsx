@@ -72,6 +72,9 @@ function ReservationDetails() {
     navigate('/mainpage');
   };
 
+  // 예약 완료 버튼을 활성화/비활성화하는 조건
+  const isButtonDisabled = !phone || !participants || isSubmitting;
+
   return (
     <S.Container>
       <NavigationBar title="컴퓨터정보공학부" />
@@ -100,7 +103,11 @@ function ReservationDetails() {
           </S.ParticipantsSelect>
         </S.DetailItem>
       </S.ReservationDetails>
-      <S.ReservationButton onClick={handleReservationComplete} disabled={isSubmitting}>
+      {/* 조건부 스타일링된 버튼 사용 */}
+      <S.ReservationButton
+        onClick={handleReservationComplete}
+        isDisabled={isButtonDisabled}
+      >
         예약 완료하기
       </S.ReservationButton>
       <SuccessModal isOpen={isModalOpen} onClose={handleModalClose} />

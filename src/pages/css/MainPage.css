@@ -74,14 +74,14 @@
 
 .react-calendar__tile--active {
   background: #0C2E86 !important;
-  color: white;
+  color: white !important;
   border-radius: 50%;
   aspect-ratio: 0.1/0.1;
 }
 
 .react-calendar__tile--now {
+  background: none;
   color: black;
-  background-color: none ;
   border: 1px solid #2d488d !important;
   border-radius: 50%;
   background: none;
@@ -133,9 +133,10 @@
   background-color: gray;
   color: white;
   position: relative;
-  overflow: hidden; /* 요소 밖으로 넘치지 않도록 설정 */
+  overflow: hidden;
   opacity: 0.3;
 }
+
 
 .time-slot.reserved::before,
 .time-slot.reserved::after {
@@ -167,16 +168,15 @@
   align-items: center;
   border-radius: 5px;
   background: rgba(12, 46, 134, 0.10);
-  box-shadow: 0px 0px 1px 0px #0C2E86;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
   border: none;
-  width: 155px;
-  height: 40px;
-  padding: 5%;
+  width: 145px;
+  height: 43px;
+  padding: 3%;
   color: var(--black2, #121212);
   font-size: 16px;
-  font-weight: 600;
   transition: all 0.3s ease-in-out;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .next-step-button.active {
@@ -201,7 +201,7 @@
 
 .logout-button {
   background: none; /* 배경 없음 */
-  margin-top: 20px;
+  margin-top: 10px;
   border: none; /* 테두리 제거 */
   color: gray; /* 글자색 회색 */
   font-size: 16px; /* 글자 크기 */

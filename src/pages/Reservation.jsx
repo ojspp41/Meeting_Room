@@ -16,6 +16,15 @@ const Reservations = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
+  
   useEffect(() => {
     fetchReservations().then((data) => {
       const updatedReservations = data.map((reservation) => {
@@ -101,7 +110,7 @@ const Reservations = () => {
             <div className="reservation-item" key={res.id}>
               <div className="reservation-header">
                 <div className="reservation-number">{indexOfFirstItem + index + 1}</div>
-                <p>{new Date(res.reservationDate).toLocaleDateString()}</p>
+                <p>{formatDate(res.reservationDate)}</p>
                 <button className="dropdown-icon" onClick={() => toggleReservationDetails(res.id)}>
                   <img src={DownIcon} />
                 </button>
@@ -109,11 +118,11 @@ const Reservations = () => {
               {selectedReservation === res.id && (
                 <div className="reservation-details">
                   <div className="item-wrapper">
-                    <div className="detail-items">신청 일자 {res.reservationDate}</div>
+                    <div className="detail-items">신청 일자    {formatDate(res.reservationDate)}</div>
                     <div className="detail-items">
-                      이용 시간 {formatTimeSlice(res.reservationStartTime)} ~ {formatTimeSlice(res.reservationEndTime)}
+                      이용 시간    {formatTimeSlice(res.reservationStartTime)} ~ {formatTimeSlice(res.reservationEndTime)}
                     </div>
-                    <div className='detail-items'>예약 상태 {getReservationStatusMessage(res.reservationStatus)}</div>
+                    <div className='detail-items'>예약 상태    {getReservationStatusMessage(res.reservationStatus)}</div>
                   </div>
                   <button
                     className={`cancel ${res.reservationStatus === "CANCELLED" || res.reservationStatus === "COMPLETED" ? "disabled" : ""}`}

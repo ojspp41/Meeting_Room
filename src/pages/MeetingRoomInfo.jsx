@@ -3,7 +3,7 @@ import "../pages/css/MeetingRoomInfo.css";
 import NavigationBar from '../components/NavigationBar/NavigationBar';
 
 const facilities = [
-  { name: "김수환관 커뮤니티 라운지", url: "https://aicodi.catholic.ac.kr/ptfol/studyRoom/meeting/view.do?dataSeq=1000030&mngtProc=Y" },
+  { name: "중앙도서관 4층 그룹 연구실", url: "https://library.catholic.ac.kr/studyroom/groupReserveStat?gId=2" },
   { name: "소피아바라관 1층 세미나실", url: "https://aicodi.catholic.ac.kr/ptfol/studyRoom/meeting/view.do?dataSeq=1000014&mngtProc=Y" },
   { name: "소피아바라관 2층 스타트업라운지", url: "https://aicodi.catholic.ac.kr/ptfol/studyRoom/meeting/view.do?dataSeq=1000020&mngtProc=Y" }
 ];

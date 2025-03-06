@@ -23,20 +23,22 @@ export const ReservationDetails = styled.div`
   width: calc(100% - 40px);
 `;
 
+
 export const ReservationButton = styled.button`
   width: 40%;
   border: none;
   border-radius: 5px;
-  background: #fff;
+  background: ${({ isDisabled }) => (isDisabled ? '#fff' : '#121212')};  // 비활성화 상태에서 색상 변경
   box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
-  color: #121212;
+  color: ${({ isDisabled }) => (isDisabled ? '#121212' : '#fff')};  // 비활성화 상태에서 텍스트 색상 변경
   font-family: Pretendard;
   font-size: 16px;
   font-weight: 500;
-  width: 155px;
   height: 40px;
   padding: 10px;
   margin-top: 10%;
+  cursor: ${({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer')};  // 비활성화 상태에서 커서 변경
+
   &:hover {
     border-radius: 5px;
     background: #121212;
@@ -44,6 +46,9 @@ export const ReservationButton = styled.button`
     color: #f9f9f9;
   }
 `;
+
+
+
 
 export const DetailItem = styled.p`
   display: flex;
