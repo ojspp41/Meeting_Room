@@ -115,7 +115,7 @@ function Unlogin() {
   
     } catch (error) {
       console.error("❌ 로그인 오류:", error.response?.data || error.message);
-      alert(`로그인 실패: ${error.response?.data?.message || error.message}`);
+      alert(`로그인 실패: 해당 아이디와 비밀번호가 일치하지 않습니다`);
     }
   };
   

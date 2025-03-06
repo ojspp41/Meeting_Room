@@ -78,7 +78,7 @@ export const Answer = () => {
                 <span className="answer-question">
                   {notice.title}
                 </span>
-                <span className="answer-arrow">{">"}</span>
+                <img src="/assets/gt.svg"  className="answer-arrow" alt="" />
               </div>
               <p className="answer-content">{notice.date}</p>
             </motion.div>

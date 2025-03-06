@@ -24,7 +24,7 @@
     padding: 10px;
     margin-bottom: 20px;
     border: none;
-    border-bottom: 2px solid #B4B4B4;
+    border-bottom: 1px solid #B4B4B4;
     font-size: 16px;
     font-weight: 400;
     outline: none;
@@ -97,7 +97,6 @@
   font-size: 14px;
   color: #aaa;
   text-decoration: none;
-  font-weight: bold;
 }
 
 .inquiry-link:hover {
@@ -132,17 +131,7 @@
     border-style: solid;
     border-color: white transparent transparent transparent;
 }
-  .inquiry-link {
-    font-size: 14px;
-    color: #aaa;
-    text-decoration: none;
-  }
-  
-  .inquiry-link:hover {
-    color: #555;
-    text-decoration: underline;
-  }
-
+ 
   .password-tooltip {
     background: #f9f9f9;
     border-radius: 8px;

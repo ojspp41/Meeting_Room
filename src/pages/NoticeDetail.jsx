@@ -74,8 +74,8 @@ const NoticeDetail = () => {
 
         <div className="notice-content">
           <h2 className="notice-title">{notice?.title}</h2>
-          <p className="notice-date">{formatDate(notice?.createdAt)}</p>
-          <p className="notice-text">{notice?.content}</p>
+          <p className="notice-dates">{formatDate(notice?.createdAt)}</p>
+          <p className="notice-texts">{notice?.content}</p>
           <div className="notice-caller">29대 학생회</div>
         </div>
         <div className="gray-block"></div>
