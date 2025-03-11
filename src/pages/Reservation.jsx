@@ -6,6 +6,7 @@ import "./css/Reservation.css";
 import NavigationBar from "../components/NavigationBar/NavigationBar";
 import DownIcon from "../../public/assets/Down.svg";
 import CancelModal from "../components/CancelModal/CancelModal";
+import { motion } from "framer-motion";  // framer-motion 추가
 
 const Reservations = () => {
   const [reservations, setReservations] = useRecoilState(reservationState);
@@ -24,7 +25,7 @@ const Reservations = () => {
   
     return `${year}-${month}-${day}`;
   };
-  
+
   useEffect(() => {
     fetchReservations().then((data) => {
       const updatedReservations = data.map((reservation) => {
@@ -112,7 +113,14 @@ const Reservations = () => {
                 <div className="reservation-number">{indexOfFirstItem + index + 1}</div>
                 <p>{formatDate(res.reservationDate)}</p>
                 <button className="dropdown-icon" onClick={() => toggleReservationDetails(res.id)}>
-                  <img src={DownIcon} />
+                  {/* motion을 사용해 회전 애니메이션 추가 */}
+                  <motion.img
+                    src={DownIcon}
+                    alt="dropdown icon"
+                    initial={{ rotate: 0 }} // 초기 상태 (0도)
+                    animate={{ rotate: selectedReservation === res.id ? 180 : 0 }} // 선택된 예약일 때 회전
+                    transition={{ duration: 0.3 }} // 애니메이션 시간
+                  />
                 </button>
               </div>
               {selectedReservation === res.id && (
