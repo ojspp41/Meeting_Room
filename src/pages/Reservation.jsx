@@ -111,7 +111,7 @@ const Reservations = () => {
             <div className="reservation-item" key={res.id}>
               <div className="reservation-header">
                 <div className="reservation-number">{indexOfFirstItem + index + 1}</div>
-                <p>{formatDate(res.reservationDate)}</p>
+                <p className="reservation-date">{formatDate(res.reservationDate)}</p>
                 <button className="dropdown-icon" onClick={() => toggleReservationDetails(res.id)}>
                   {/* motion을 사용해 회전 애니메이션 추가 */}
                   <motion.img

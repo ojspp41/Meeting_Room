@@ -44,6 +44,10 @@
   .reservation-number {
     margin-left: 5%;
   }
+
+  .reservation-date{
+    margin-left: 4.5%;
+  }
   
   .dropdown-icon {
     margin-right: 1%;
