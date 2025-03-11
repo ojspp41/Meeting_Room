@@ -1,24 +1,23 @@
-import React, { useState, useEffect , useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
-import { fetchFullyBookedDates, fetchReservedTimes, fetchAvailableTimes } from '../apis/mainpage.js'
+import { fetchFullyBookedDates, fetchReservedTimes, fetchAvailableTimes } from '../apis/mainpage.js';
 import './css/MainPage.css';
+import { fetchHolidays } from '../apis/holidays.js';
 import axios from 'axios';
 
 function MainPage() {
-
-  
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
   const [availableTimes, setAvailableTimes] = useState([]);
   const [reservedTimes, setReservedTimes] = useState({});
   const [fullyBookedDates, setFullyBookedDates] = useState([]);
+  const [holidays, setHolidays] = useState([]);
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState([]);
-  const [holidays, setHolidays] = useState(["12-25"]);
   const buttonRef = useRef(null);
 
   const getToday = new Date();
@@ -58,9 +57,10 @@ function MainPage() {
 
       setReservedTimes(reservedSlots);
     });
+    
+    fetchHolidays(year).then(setHolidays);
   }, [date]);
 
-  
   useEffect(() => {
     const checkTodayAvailability = async () => {
       const formattedDate = date.toISOString().split('T')[0];
@@ -71,7 +71,7 @@ function MainPage() {
         isWeekend(date) || 
         isDate30DaysLater(date) || 
         fullyBookedDates.some(d => d === formattedDate) || 
-        holidays.includes(`${date.getMonth() + 1}-${date.getDate()}`)
+        holidays.includes(formattedDate)
       ) {
         setAvailableTimes([]);
         return;
@@ -110,8 +110,6 @@ function MainPage() {
   
     checkTodayAvailability(); // 컴포넌트가 처음 렌더링될 때 실행
   }, [date, fullyBookedDates, holidays, reservedTimes]);
-  
-  
 
   const handleDateChange = async (selectedDate) => {
     // 이미 선택된 날짜를 다시 클릭하면 선택 해제
@@ -122,7 +120,6 @@ function MainPage() {
       setAvailableTimes([]);
       return;
     }
-    
     
     setDate(selectedDate);
     setSelectedDate(selectedDate);
@@ -150,53 +147,12 @@ function MainPage() {
     }
   };
 
-  useEffect(() => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    
-    fetchFullyBookedDates(year, month).then(setFullyBookedDates);
-    
-    fetchReservedTimes(year, month).then((data) => {
-        const reservedSlots = data.reduce((acc, reservation) => {
-            const reservationDate = new Date(reservation.reservationDate);
-            const day = reservationDate.getDate();
-            const startHour = new Date(reservation.reservationStartTime).getHours();
-            const endHour = new Date(reservation.reservationEndTime).getHours();
-
-            if (!acc[day]) acc[day] = [];
-            acc[day].push({ start: startHour, end: endHour });
-            return acc;
-        }, {});
-
-        setReservedTimes(reservedSlots);
-    });
-
-    // 선택한 날짜의 예약 가능 시간 자동 업데이트
-    fetchAvailableTimes(date).then((isAvailable) => {
-        if (isAvailable) {
-            const allSlots = [];
-            for (let hour = 10; hour < 22; hour += 2) {
-                const startTime = `${hour}:00`;
-                const endTime = `${hour + 2}:00`;
-
-                const isReserved = reservedTimes[date.getDate()]?.some(
-                    (res) => hour < res.end && (hour + 2) > res.start
-                );
-                allSlots.push({ time: `${startTime}~${endTime}`, isReserved });
-            }
-            setAvailableTimes(allSlots);
-        } else {
-            setAvailableTimes([]);
-        }
-    });
-}, [date]);
-
   const handleTimeSelect = (time) => {
     // 이미 선택된 시간을 다시 클릭하면 선택 해제
     if (selectedTime === time) {
       setSelectedTime([]);
       return;
-  }
+    }
     if (!reservedTimes[selectedDate?.getDate()]?.some(
       (res) => {
         const slotHour = time.split(':')[0];
@@ -213,7 +169,6 @@ function MainPage() {
   };
 
   const handleNextStep = () => {
-    //(null일때 수정!)
     const date = new Date(selectedDate || new Date());
 
     const kstOffset = 9 * 60;
@@ -253,9 +208,6 @@ function MainPage() {
       alert('로그아웃 실패');
     }
   };
-  
-
-
 
   const tileClassName = ({ date }) => {
     const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;

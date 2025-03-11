@@ -74,7 +74,7 @@
 }
 
 .react-calendar__tile {
-  padding: 15px 0;
+  padding: 13px 0;
   transition: all 0.3s ease-in-out;
   font-size: 18px;
   -webkit-transition: all 0.3s ease-in-out; 
