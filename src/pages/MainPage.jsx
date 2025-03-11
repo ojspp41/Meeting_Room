@@ -64,8 +64,8 @@ function MainPage() {
   useEffect(() => {
     const checkTodayAvailability = async () => {
       const formattedDate = date.toISOString().split('T')[0];
-      
-      // 🚨 오늘 날짜가 예약 불가능한 경우 availableTimes를 비움 🚨
+    
+      // 오늘 날짜가 예약 불가능한 경우 availableTimes를 비움
       if (
         isDatePast(date) || 
         isWeekend(date) || 
@@ -76,23 +76,26 @@ function MainPage() {
         setAvailableTimes([]);
         return;
       }
-  
-      // ✅ 오늘 날짜가 예약 가능하면 fetchAvailableTimes 실행
+    
+      // 예약 가능하면 fetchAvailableTimes 실행
       const isAvailable = await fetchAvailableTimes(date);
       if (isAvailable) {
         const allSlots = [];
         const currentTime = new Date(); // 현재 시간 확인
-  
+    
         for (let hour = 10; hour < 22; hour += 2) {
           const startTime = `${hour}:00`;
           const endTime = `${hour + 2}:00`;
-  
+    
           // 예약된 시간 처리: 현재 시간 이전이면 예약된 상태로 설정
-          const isBeforeCurrentTime = currentTime.getHours() > hour;
+          const isBeforeCurrentTime = 
+            date.toDateString() === getToday.toDateString() &&
+            (currentTime.getHours() > hour || (currentTime.getHours() === hour && currentTime.getMinutes() > 0));
+          
           const isReserved = reservedTimes[date.getDate()]?.some(
             (res) => hour < res.end && (hour + 2) > res.start
           );
-  
+    
           // 예약된 상태로 자동 처리 (현재 시간 이전이면 isReserved = true)
           allSlots.push({
             time: `${startTime}~${endTime}`,
@@ -146,6 +149,7 @@ function MainPage() {
       setAvailableTimes([]);
     }
   };
+
   useEffect(() => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
