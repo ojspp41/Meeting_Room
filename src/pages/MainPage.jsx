@@ -197,17 +197,7 @@ function MainPage() {
     });
   };
 
-  const handleLogout = () => {
-    try {
-      // 로컬스토리지에서 accessToken 삭제
-      localStorage.removeItem('accessToken');
-      
-      // 로그인 페이지로 리디렉션
-      navigate('/');
-    } catch (error) {
-      alert('로그아웃 실패');
-    }
-  };
+
 
   const tileClassName = ({ date }) => {
     const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;
@@ -283,7 +273,6 @@ function MainPage() {
           다음 단계
         </motion.button>
       )}
-      <button className="logout-button" onClick={handleLogout}>로그아웃</button>
     </motion.div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavBarContainer, LogoImage, VectorImage, DropdownMenu, DropdownItem, TextDiv, DropdownText, DropdownIcon } from '../NavigationBar/Styles'; 
+import { NavBarContainer, LogoImage, VectorImage, DropdownMenu,IconMenu, IconWrapper, DropdownItem, TextDiv, DropdownText, DropdownIcon } from '../NavigationBar/Styles'; 
 
 function NavigationBar({ title }) {
   const navigate = useNavigate();
@@ -17,6 +17,18 @@ function NavigationBar({ title }) {
     navigate('/mainpage');
   }
 
+  const handleLogout = () => {
+    try {
+      // 로컬스토리지에서 accessToken 삭제
+      localStorage.removeItem('accessToken');
+      
+      // 로그인 페이지로 리디렉션
+      navigate('/');
+    } catch (error) {
+      alert('로그아웃 실패');
+    }
+  };
+  //<button className="logout-button" onClick={handleLogout}>로그아웃</button>
 
   const menuItems = [
     { label: "예약 일정 확인/취소", path: "/reservation" },
@@ -40,7 +52,14 @@ function NavigationBar({ title }) {
       {isOpen && (
         
         <DropdownMenu>
-          
+          <IconMenu>
+            <IconWrapper onClick={() => navigate('/mainpage')}>
+              <img src="/assets/home.svg" alt="Home Icon" />
+            </IconWrapper>
+            <IconWrapper onClick={handleLogout}>
+              <img src="/assets/out.svg" alt="Out Icon" />
+            </IconWrapper>
+          </IconMenu>
           {menuItems.map((item, index) => (
             <DropdownItem 
             key={index} 

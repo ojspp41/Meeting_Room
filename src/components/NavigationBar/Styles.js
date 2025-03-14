@@ -52,8 +52,11 @@ width:60%;
 `;
 
 export const LogoImage = styled.img`
-  width: 41px; 
-  height: 52px;  
+  width: 42px; 
+  height: 42px;  
+  border: 1px solid black; 
+  border-radius: 50%;
+  padding: 2px;   
 `;
 
 export const VectorImage = styled.img`
@@ -72,6 +75,30 @@ export const DropdownMenu = styled.div`
   border-radius: 8px;
   animation: ${slideDown} 0.7s ease-out;
   z-index: 1000;
+`;
+
+export const IconMenu = styled.div`
+  display: flex;
+  justify-content: flex-end; 
+  gap: 10px; 
+  align-items: center; 
+  margin-bottom: 10px; 
+`;
+
+export const IconWrapper = styled.div`
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #B4B4B4; 
+  border-radius: 50%; 
+  cursor: pointer; 
+  
+  img {
+    width: 20px; 
+    height: 20px;
+  }
 `;
 
 
